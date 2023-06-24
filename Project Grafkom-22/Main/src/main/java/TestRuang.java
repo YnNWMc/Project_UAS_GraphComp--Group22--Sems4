@@ -61,10 +61,12 @@ public class TestRuang {
                 new ArrayList<>(List.of(0f, 0f, 0f)),
                 20.0f,
                 0.2f,
-                20.0f,
+                28.0f,
                 15, // Stack -->
                 30, // Sector --> Titik
                 0));
+
+        Ruang.get(0).translateObject(0.0f,0.0f,4.0f);
 
         //Dinding Belakang
         Ruang.get(0).getChildObject().add(new Sphere(
@@ -91,14 +93,14 @@ public class TestRuang {
                 ),
                 new Vector4f(178f/255, 169f/255, 124f/255, 1.0f/255),0.0,
                 new ArrayList<>(List.of(0f, 0f, 0f)),
-                12.0f,
+                16.0f,
                 13.0f,
                 1.0f,
                 15, // Stack -->
                 30, // Sector --> Titik
                 0));
         Ruang.get(0).getChildObject().get(0).getChildObject().get(0).rotateObject((float)Math.toRadians(90.0f), 0.0f, 1.0f, 0.0f);
-        Ruang.get(0).getChildObject().get(0).getChildObject().get(0).translateObject(-10.5f,6.5f,-4.0f);
+        Ruang.get(0).getChildObject().get(0).getChildObject().get(0).translateObject(-10.5f,6.5f,-2.0f);
 
         try{
             m = ObjLoader.loadModelwFace(new File("Project Grafkom-22/Main/src/blenderAssets/Door.obj"), false);
@@ -124,7 +126,9 @@ public class TestRuang {
                 30, // Sector --> Titik
                 m));
 
-        Ruang.get(0).getChildObject().get(0).getChildObject().get(1).translateObject(-10.1f,1.0f,3.7f);
+
+
+        Ruang.get(0).getChildObject().get(0).getChildObject().get(1).translateObject(-10.1f,1.0f,7.0f);
         Ruang.get(0).getChildObject().get(0).getChildObject().get(1).scaleObject(1.0f,1.4f,1.2f);
 
         //Dinding Kiri 2
@@ -135,14 +139,14 @@ public class TestRuang {
                 ),
                 new Vector4f(178f/255, 169f/255, 124f/255, 1.0f/255),0.0,
                 new ArrayList<>(List.of(0f, 0f, 0f)),
-                3.2f,
+                7.2f,
                 13.0f,
                 1.0f,
                 15, // Stack -->
                 30, // Sector --> Titik
                 0));
         Ruang.get(0).getChildObject().get(0).getChildObject().get(2).rotateObject((float)Math.toRadians(90.0f), 0.0f, 1.0f, 0.0f);
-        Ruang.get(0).getChildObject().get(0).getChildObject().get(2).translateObject(-10.5f,6.5f,8.4f);
+        Ruang.get(0).getChildObject().get(0).getChildObject().get(2).translateObject(-10.5f,6.5f,14.4f);
 
         //Dinding Kiri 3
         Ruang.get(0).getChildObject().get(0).getChildObject().add(new Sphere(
@@ -159,7 +163,7 @@ public class TestRuang {
                 30, // Sector --> Titik
                 0));
         Ruang.get(0).getChildObject().get(0).getChildObject().get(3).rotateObject((float)Math.toRadians(90.0f), 0.0f, 1.0f, 0.0f);
-        Ruang.get(0).getChildObject().get(0).getChildObject().get(3).translateObject(-10.5f,11.9f,4.4f);
+        Ruang.get(0).getChildObject().get(0).getChildObject().get(3).translateObject(-10.5f,11.9f,8.4f);
 
         //Dinding Kanan 1
         Ruang.get(0).getChildObject().get(0).getChildObject().add(new Sphere(
@@ -169,14 +173,14 @@ public class TestRuang {
                 ),
                 new Vector4f(178f/255, 169f/255, 124f/255, 1.0f/255),0.0,
                 new ArrayList<>(List.of(0f, 0f, 0f)),
-                9.0f,
+                13.0f,
                 13.0f,
                 1.0f,
                 15, // Stack -->
                 30, // Sector --> Titik
                 0));
         Ruang.get(0).getChildObject().get(0).getChildObject().get(4).rotateObject((float)Math.toRadians(90.0f), 0.0f, 1.0f, 0.0f);
-        Ruang.get(0).getChildObject().get(0).getChildObject().get(4).translateObject(10.5f,6.5f,-5.5f);
+        Ruang.get(0).getChildObject().get(0).getChildObject().get(4).translateObject(10.5f,6.5f,-3.5f);
 
         try{
             m = ObjLoader.loadModelwFace(new File("Project Grafkom-22/Main/src/blenderAssets/win.obj"), false);
@@ -203,7 +207,7 @@ public class TestRuang {
                 m));
         Ruang.get(0).getChildObject().get(0).getChildObject().get(5).scaleObject(2.0f,2.0f,2.0f);
         Ruang.get(0).getChildObject().get(0).getChildObject().get(5).rotateObject((float)Math.toRadians(90.0f), 1.0f, 0.0f, 0.0f);
-        Ruang.get(0).getChildObject().get(0).getChildObject().get(5).translateObject(10.5f,6.0f,1.0f);
+        Ruang.get(0).getChildObject().get(0).getChildObject().get(5).translateObject(10.5f,6.0f,5.0f);
 
         //jendela 2
         Ruang.get(0).getChildObject().get(0).getChildObject().add(new Sphere(
@@ -222,7 +226,7 @@ public class TestRuang {
                 m));
         Ruang.get(0).getChildObject().get(0).getChildObject().get(6).scaleObject(2.0f,2.0f,2.0f);
         Ruang.get(0).getChildObject().get(0).getChildObject().get(6).rotateObject((float)Math.toRadians(90.0f), 1.0f, 0.0f, 0.0f);
-        Ruang.get(0).getChildObject().get(0).getChildObject().get(6).translateObject(10.5f,6.0f,-3.0f);
+        Ruang.get(0).getChildObject().get(0).getChildObject().get(6).translateObject(10.5f,6.0f,1.0f);
 
         //Dinding Kanan 2
         Ruang.get(0).getChildObject().get(0).getChildObject().add(new Sphere(
@@ -232,14 +236,14 @@ public class TestRuang {
                 ),
                 new Vector4f(178f/255, 169f/255, 124f/255, 1.0f/255),0.0,
                 new ArrayList<>(List.of(0f, 0f, 0f)),
-                3.0f,
+                7.0f,
                 13.0f,
                 1.0f,
                 15, // Stack -->
                 30, // Sector --> Titik
                 0));
         Ruang.get(0).getChildObject().get(0).getChildObject().get(7).rotateObject((float)Math.toRadians(90.0f), 0.0f, 1.0f, 0.0f);
-        Ruang.get(0).getChildObject().get(0).getChildObject().get(7).translateObject(10.5f,6.5f,8.5f);
+        Ruang.get(0).getChildObject().get(0).getChildObject().get(7).translateObject(10.5f,6.5f,14.5f);
 
         //Dinding Kanan 3
         Ruang.get(0).getChildObject().get(0).getChildObject().add(new Sphere(
@@ -256,7 +260,7 @@ public class TestRuang {
                 30, // Sector --> Titik
                 0));
         Ruang.get(0).getChildObject().get(0).getChildObject().get(8).rotateObject((float)Math.toRadians(90.0f), 0.0f, 1.0f, 0.0f);
-        Ruang.get(0).getChildObject().get(0).getChildObject().get(8).translateObject(10.5f,11.2f,3.0f);
+        Ruang.get(0).getChildObject().get(0).getChildObject().get(8).translateObject(10.5f,11.2f,7.0f);
 
         //Dinding Kanan 4
         Ruang.get(0).getChildObject().get(0).getChildObject().add(new Sphere(
@@ -273,7 +277,7 @@ public class TestRuang {
                 30, // Sector --> Titik
                 0));
         Ruang.get(0).getChildObject().get(0).getChildObject().get(9).rotateObject((float)Math.toRadians(90.0f), 0.0f, 1.0f, 0.0f);
-        Ruang.get(0).getChildObject().get(0).getChildObject().get(9).translateObject(10.5f,1.3f,3.0f);
+        Ruang.get(0).getChildObject().get(0).getChildObject().get(9).translateObject(10.5f,1.3f,7.0f);
 
         try{
             m = ObjLoader.loadModelwFace(new File("Project Grafkom-22/Main/src/blenderAssets/bed.obj"), false);
@@ -298,8 +302,140 @@ public class TestRuang {
                 15, // Stack -->
                 30, // Sector --> Titik
                 m));
-        Ruang.get(0).getChildObject().get(1).scaleObject(4.0f,5.0f,4.5f);
-        Ruang.get(0).getChildObject().get(1).translateObject(6.0f,0.0f,-8.8f);
+        Ruang.get(0).getChildObject().get(1).scaleObject(4.2f,6.0f,4.5f);
+        Ruang.get(0).getChildObject().get(1).translateObject(6.8f,0.0f,-8.8f);
+
+        try{
+            m = ObjLoader.loadModelwFace(new File("Project Grafkom-22/Main/src/blenderAssets/kursi.obj"), false);
+        }catch(FileNotFoundException e){
+            e.printStackTrace();
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+
+        //Kursi
+        Ruang.get(0).getChildObject().add(new Sphere(
+                shaderModuleDataList,
+                new ArrayList<>(
+                ),
+//                new Vector4f(104f/255, 42f/255, 0, 1.0f/255),
+                new Vector4f(255f/255, 255f/255, 255f/255, 1.0f/255),
+                0.0,
+                new ArrayList<>(List.of(0f, 0f, 0f)),
+                0.0f,
+                0.0f,
+                0.0f,
+                15, // Stack -->
+                30, // Sector --> Titik
+                m));
+        Ruang.get(0).getChildObject().get(2).scaleObject(7.0f,6.0f,7.0f);
+        Ruang.get(0).getChildObject().get(2).translateObject(4.0f,0.0f,11.8f);
+
+        try{
+            m = ObjLoader.loadModelwFace(new File("Project Grafkom-22/Main/src/blenderAssets/mejaKecil.obj"), false);
+        }catch(FileNotFoundException e){
+            e.printStackTrace();
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+
+        //mejaKecil
+        Ruang.get(0).getChildObject().add(new Sphere(
+                shaderModuleDataList,
+                new ArrayList<>(
+                ),
+                new Vector4f(255f/255, 255f/255, 255f/255, 1.0f/255),
+                0.0,
+                new ArrayList<>(List.of(0f, 0f, 0f)),
+                0.0f,
+                0.0f,
+                0.0f,
+                15, // Stack -->
+                30, // Sector --> Titik
+                m));
+        Ruang.get(0).getChildObject().get(3).rotateObject((float)Math.toRadians(90.0f), 0.0f, 1.0f, 0.0f);
+        Ruang.get(0).getChildObject().get(3).scaleObject(5.0f,7.0f,9.0f);
+        Ruang.get(0).getChildObject().get(3).translateObject(-8.7f,0.0f,2.5f);
+
+        try{
+            m = ObjLoader.loadModelwFace(new File("Project Grafkom-22/Main/src/blenderAssets/meja.obj"), false);
+        }catch(FileNotFoundException e){
+            e.printStackTrace();
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+
+        //meja belajar
+        Ruang.get(0).getChildObject().add(new Sphere(
+                shaderModuleDataList,
+                new ArrayList<>(
+                ),
+                new Vector4f(255f/255, 255f/255, 255f/255, 1.0f/255),
+                0.0,
+                new ArrayList<>(List.of(0f, 0f, 0f)),
+                0.0f,
+                0.0f,
+                0.0f,
+                15, // Stack -->
+                30, // Sector --> Titik
+                m));
+        Ruang.get(0).getChildObject().get(4).rotateObject((float)Math.toRadians(180.0f), 0.0f, 1.0f, 0.0f);
+        Ruang.get(0).getChildObject().get(4).scaleObject(7.0f,7.0f,7.0f);
+        Ruang.get(0).getChildObject().get(4).translateObject(4.0f,0.0f,16.3f);
+
+        try{
+            m = ObjLoader.loadModelwFace(new File("Project Grafkom-22/Main/src/blenderAssets/lampu.obj"), false);
+        }catch(FileNotFoundException e){
+            e.printStackTrace();
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+
+        //lampu tidur
+        Ruang.get(0).getChildObject().add(new Sphere(
+                shaderModuleDataList,
+                new ArrayList<>(
+                ),
+                new Vector4f(255f/255, 255f/255, 255f/255, 1.0f/255),
+                0.0,
+                new ArrayList<>(List.of(0f, 0f, 0f)),
+                0.0f,
+                0.0f,
+                0.0f,
+                15, // Stack -->
+                30, // Sector --> Titik
+                m));
+
+        Ruang.get(0).getChildObject().get(5).scaleObject(9.0f,4.0f,9.0f);
+        Ruang.get(0).getChildObject().get(5).translateObject(-8.5f,3.8f,2.5f);
+
+
+        try{
+            m = ObjLoader.loadModelwFace(new File("Project Grafkom-22/Main/src/blenderAssets/lemari.obj"), false);
+        }catch(FileNotFoundException e){
+            e.printStackTrace();
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+
+        //lemari
+        Ruang.get(0).getChildObject().add(new Sphere(
+                shaderModuleDataList,
+                new ArrayList<>(
+                ),
+                new Vector4f(255f/255, 255f/255, 255f/255, 1.0f/255),
+                0.0,
+                new ArrayList<>(List.of(0f, 0f, 0f)),
+                0.0f,
+                0.0f,
+                0.0f,
+                15, // Stack -->
+                30, // Sector --> Titik
+                m));
+
+        Ruang.get(0).getChildObject().get(6).rotateObject((float)Math.toRadians(180.0f), 0.0f, 1.0f, 0.0f);
+        Ruang.get(0).getChildObject().get(6).scaleObject(6.0f,6.0f,6.0f);
+        Ruang.get(0).getChildObject().get(6).translateObject(-5.0f,0.0f,16.6f);
 
     }
 
