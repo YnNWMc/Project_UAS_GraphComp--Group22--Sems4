@@ -525,6 +525,7 @@ public class TestRuang {
 
             // MOVE CAMERA
         }
+        camera.printPosition();
     }
 
 
