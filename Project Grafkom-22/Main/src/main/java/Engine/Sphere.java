@@ -206,144 +206,152 @@ public class Sphere extends Circle3D{
             vertices.add(v3);
         }
     }
-    public void createBox()
-    {
+    public void createBox(){
+        vertices.clear();
         Vector3f temp = new Vector3f();
         ArrayList<Vector3f> tempVertices = new ArrayList<>();
-        // x jika minus di kiri, x jika plus di kanan
-        // y di minus di bawah, y jika plus di atas
-        // z di minus belakang, z di plus depan
-
-        //titik 0 kiri atas belakang
-        temp.x = (float)centerPoint.get(0) - rX/2;
-        temp.y = (float)centerPoint.get(1) + rY/2;
-        temp.z = (float)centerPoint.get(2) - rZ/2;
+        //Titik 1 kiri atas belakang
+        temp.x = centerPoint.get(0) - rX / 2;
+        temp.y = centerPoint.get(1) + rY / 2;
+        temp.z = centerPoint.get(2) - rZ / 2;
+        tempVertices.add(temp);
+        temp = new Vector3f();
+        //Titik 2 kiri bawah belakang
+        temp.x = centerPoint.get(0) - rX / 2;
+        temp.y = centerPoint.get(1) - rY / 2;
+        temp.z = centerPoint.get(2) - rZ / 2;
+        tempVertices.add(temp);
+        temp = new Vector3f();
+        //Titik 3 kanan bawah belakang
+        temp.x = centerPoint.get(0) + rX / 2;
+        temp.y = centerPoint.get(1) - rY / 2;
+        temp.z = centerPoint.get(2) - rZ / 2;
+        tempVertices.add(temp);
+        temp = new Vector3f();
+        //Titik 4 kanan atas belakang
+        temp.x = centerPoint.get(0) + rX / 2;
+        temp.y = centerPoint.get(1) + rY / 2;
+        temp.z = centerPoint.get(2) - rZ / 2;
+        tempVertices.add(temp);
+        temp = new Vector3f();
+        //Titik 5 kiri atas depan
+        temp.x = centerPoint.get(0) - rX / 2;
+        temp.y = centerPoint.get(1) + rY / 2;
+        temp.z = centerPoint.get(2) + rZ / 2;
+        tempVertices.add(temp);
+        temp = new Vector3f();
+        //Titik 6 kiri bawah depan
+        temp.x = centerPoint.get(0) - rX / 2;
+        temp.y = centerPoint.get(1) - rY / 2;
+        temp.z = centerPoint.get(2) + rZ / 2;
+        tempVertices.add(temp);
+        temp = new Vector3f();
+        //Titik 7 kanan bawah depan
+        temp.x = centerPoint.get(0) + rX / 2;
+        temp.y = centerPoint.get(1) - rY / 2;
+        temp.z = centerPoint.get(2) + rZ / 2;
+        tempVertices.add(temp);
+        temp = new Vector3f();
+        //Titik 8 kanan atas depan
+        temp.x = centerPoint.get(0) + rX / 2;
+        temp.y = centerPoint.get(1) + rY / 2;
+        temp.z = centerPoint.get(2) + rZ / 2;
         tempVertices.add(temp);
         temp = new Vector3f();
 
-        //titik 1 kiri bawah belakang
-        temp.x = (float)centerPoint.get(0) - rX/2;
-        temp.y = (float)centerPoint.get(1) - rY/2;
-        temp.z = (float)centerPoint.get(2) - rZ/2;
-        tempVertices.add(temp);
-        temp = new Vector3f();
-
-        //titik 2 kanan bawah belakang
-        temp.x = (float)centerPoint.get(0) + rX/2;
-        temp.y = (float)centerPoint.get(1) - rY/2;
-        temp.z = (float)centerPoint.get(2) - rZ/2;
-        tempVertices.add(temp);
-        temp = new Vector3f();
-
-        //titik 3 kanan atas belakang
-        temp.x = (float)centerPoint.get(0) + rX/2;
-        temp.y = (float)centerPoint.get(1) + rY/2;
-        temp.z = (float)centerPoint.get(2) - rZ/2;
-        tempVertices.add(temp);
-        temp = new Vector3f();
-
-        //titik 4 kiri atas depan
-        temp.x = (float)centerPoint.get(0) - rX/2;
-        temp.y = (float)centerPoint.get(1) + rY/2;
-        temp.z = (float)centerPoint.get(2) + rZ/2;
-        tempVertices.add(temp);
-        temp = new Vector3f();
-
-        //titik 5 kiri bawah depan
-        temp.x = (float)centerPoint.get(0) - rX/2;
-        temp.y = (float)centerPoint.get(1) - rY/2;
-        temp.z = (float)centerPoint.get(2) + rZ/2;
-        tempVertices.add(temp);
-        temp = new Vector3f();
-
-        //titik 6 kanan bawah depan
-        temp.x = (float)centerPoint.get(0) + rX/2;
-        temp.y = (float)centerPoint.get(1) - rY/2;
-        temp.z = (float)centerPoint.get(2) + rZ/2;
-        tempVertices.add(temp);
-        temp = new Vector3f();
-
-        //titik 7 kanan atas depan
-        temp.x = (float)centerPoint.get(0) + rX/2;
-        temp.y = (float)centerPoint.get(1) + rY/2;
-        temp.z = (float)centerPoint.get(2) + rZ/2;
-        tempVertices.add(temp);
-
-        vertices.clear();
+        //kotak belakang
         vertices.add(tempVertices.get(0));
         vertices.add(tempVertices.get(1));
         vertices.add(tempVertices.get(2));
-        vertices.add(tempVertices.get(3));
 
+        vertices.add(tempVertices.get(2));
+        vertices.add(tempVertices.get(3));
+        vertices.add(tempVertices.get(0));
+        //kotak depan
         vertices.add(tempVertices.get(4));
         vertices.add(tempVertices.get(5));
         vertices.add(tempVertices.get(6));
-        vertices.add(tempVertices.get(7));
 
-        vertices.add(tempVertices.get(0));
-        vertices.add(tempVertices.get(4));
+        vertices.add(tempVertices.get(6));
         vertices.add(tempVertices.get(7));
-        vertices.add(tempVertices.get(3));
+        vertices.add(tempVertices.get(4));
+        //kotak samping kiri
+        vertices.add(tempVertices.get(0));
+        vertices.add(tempVertices.get(1));
+        vertices.add(tempVertices.get(4));
 
         vertices.add(tempVertices.get(1));
         vertices.add(tempVertices.get(5));
-        vertices.add(tempVertices.get(6));
-        vertices.add(tempVertices.get(2));
-
-        vertices.add(tempVertices.get(0));
-        vertices.add(tempVertices.get(1));
-        vertices.add(tempVertices.get(5));
         vertices.add(tempVertices.get(4));
-
-        vertices.add(tempVertices.get(3));
-        vertices.add(tempVertices.get(2));
+        //kotak samping kanan
         vertices.add(tempVertices.get(7));
         vertices.add(tempVertices.get(6));
-        normal = new ArrayList<>
-                (Arrays.asList(
-                   //Belakang
-                    new Vector3f(0.0f, 0.0f,-1.0f),
-                    new Vector3f(0.0f, 0.0f,-1.0f),
-                    new Vector3f(0.0f, 0.0f,-1.0f),
-                    new Vector3f(0.0f, 0.0f,-1.0f),
-                    new Vector3f(0.0f, 0.0f,-1.0f),
-                    new Vector3f(0.0f, 0.0f,-1.0f),
-                    //Depan
-                    new Vector3f(0.0f, 0.0f,1.0f),
-                    new Vector3f(0.0f, 0.0f,1.0f),
-                    new Vector3f(0.0f, 0.0f,1.0f),
-                    new Vector3f(0.0f, 0.0f,1.0f),
-                    new Vector3f(0.0f, 0.0f,1.0f),
-                    new Vector3f(0.0f, 0.0f,1.0f),
-                    //Kanan
-                    new Vector3f(1.0f, 0.0f,0.0f),
-                    new Vector3f(1.0f, 0.0f,0.0f),
-                    new Vector3f(1.0f, 0.0f,0.0f),
-                    new Vector3f(1.0f, 0.0f,0.0f),
-                    new Vector3f(1.0f, 0.0f,0.0f),
-                    new Vector3f(1.0f, 0.0f,0.0f),
-                    //Kiri
-                    new Vector3f(-1.0f, 0.0f,0.0f),
-                    new Vector3f(-1.0f, 0.0f,0.0f),
-                    new Vector3f(-1.0f, 0.0f,0.0f),
-                    new Vector3f(-1.0f, 0.0f,0.0f),
-                    new Vector3f(-1.0f, 0.0f,0.0f),
-                    new Vector3f(-1.0f, 0.0f,0.0f),
-                    //Atas
-                    new Vector3f(0.0f, 1.0f,0.0f),
-                    new Vector3f(0.0f, 1.0f,0.0f),
-                    new Vector3f(0.0f, 1.0f,0.0f),
-                    new Vector3f(0.0f, 1.0f,0.0f),
-                    new Vector3f(0.0f, 1.0f,0.0f),
-                    new Vector3f(0.0f, 1.0f,0.0f),
-                        //Atas
-                    new Vector3f(0.0f, -1.0f,0.0f),
-                    new Vector3f(0.0f, -1.0f,0.0f),
-                    new Vector3f(0.0f, -1.0f,0.0f),
-                    new Vector3f(0.0f, -1.0f,0.0f),
-                    new Vector3f(0.0f, -1.0f,0.0f),
-                    new Vector3f(0.0f, -1.0f,0.0f)
-                ));
+        vertices.add(tempVertices.get(2));
+
+        vertices.add(tempVertices.get(2));
+        vertices.add(tempVertices.get(3));
+        vertices.add(tempVertices.get(7));
+        //kotak bawah
+        vertices.add(tempVertices.get(1));
+        vertices.add(tempVertices.get(5));
+        vertices.add(tempVertices.get(6));
+
+        vertices.add(tempVertices.get(6));
+        vertices.add(tempVertices.get(2));
+        vertices.add(tempVertices.get(1));
+        //kotak atas
+        vertices.add(tempVertices.get(0));
+        vertices.add(tempVertices.get(4));
+        vertices.add(tempVertices.get(7));
+
+        vertices.add(tempVertices.get(7));
+        vertices.add(tempVertices.get(0));
+        vertices.add(tempVertices.get(3));
+
+        normal = new ArrayList<>(Arrays.asList(
+                //belakang
+                new Vector3f(0.0f,0.0f,-1.0f),
+                new Vector3f(0.0f,0.0f,-1.0f),
+                new Vector3f(0.0f,0.0f,-1.0f),
+                new Vector3f(0.0f,0.0f,-1.0f),
+                new Vector3f(0.0f,0.0f,-1.0f),
+                new Vector3f(0.0f,0.0f,-1.0f),
+                //depan
+                new Vector3f(0.0f,0.0f,1.0f),
+                new Vector3f(0.0f,0.0f,1.0f),
+                new Vector3f(0.0f,0.0f,1.0f),
+                new Vector3f(0.0f,0.0f,1.0f),
+                new Vector3f(0.0f,0.0f,1.0f),
+                new Vector3f(0.0f,0.0f,1.0f),
+                //kiri
+                new Vector3f(-1.0f,0.0f,0.0f),
+                new Vector3f(-1.0f,0.0f,0.0f),
+                new Vector3f(-1.0f,0.0f,0.0f),
+                new Vector3f(-1.0f,0.0f,0.0f),
+                new Vector3f(-1.0f,0.0f,0.0f),
+                new Vector3f(-1.0f,0.0f,0.0f),
+                //kanan
+                new Vector3f(1.0f,0.0f,0.0f),
+                new Vector3f(1.0f,0.0f,0.0f),
+                new Vector3f(1.0f,0.0f,0.0f),
+                new Vector3f(1.0f,0.0f,0.0f),
+                new Vector3f(1.0f,0.0f,0.0f),
+                new Vector3f(1.0f,0.0f,0.0f),
+                //bawah
+                new Vector3f(0.0f,-1.0f,0.0f),
+                new Vector3f(0.0f,-1.0f,0.0f),
+                new Vector3f(0.0f,-1.0f,0.0f),
+                new Vector3f(0.0f,-1.0f,0.0f),
+                new Vector3f(0.0f,-1.0f,0.0f),
+                new Vector3f(0.0f,-1.0f,0.0f),
+                //atas
+                new Vector3f(0.0f,1.0f,0.0f),
+                new Vector3f(0.0f,1.0f,0.0f),
+                new Vector3f(0.0f,1.0f,0.0f),
+                new Vector3f(0.0f,1.0f,0.0f),
+                new Vector3f(0.0f,1.0f,0.0f),
+                new Vector3f(0.0f,1.0f,0.0f)
+        ));
     }
 
     public void createSphereElipsoid(){
