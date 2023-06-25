@@ -729,7 +729,7 @@ public class TestRuang {
     boolean cam1 = false;
     public void input() {
         //( 9.949E+0  1.275E+1 -9.942E+0)
-        System.out.println(camera.getPosition());
+        //System.out.println(camera.getPosition());
         //CCTV 1
         if (window.isKeyPressed(GLFW_KEY_2)) {
             camera.setPosition(9.949f,  12.8f ,-9.942f);
@@ -861,6 +861,7 @@ public class TestRuang {
             for (Object obj3D : Ruang) {
                 obj3D.draw(camera, projection);
             }
+
 //            System.out.println("Cam X"+camera.getPosition().get(0));
 //            System.out.println("Cam Y"+camera.getPosition().get(1));
 //            System.out.println("Cam Z"+camera.getPosition().get(2));

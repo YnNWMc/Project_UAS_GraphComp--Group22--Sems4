@@ -16,9 +16,31 @@ public class Face {
         this.texture = texture;
     }
 
+    public Vector3f getVertex() {
+        return vertex;
+    }
 
+    public void setVertex(Vector3f vertex) {
+        this.vertex = vertex;
+    }
 
-//    public Vector4f vertex = new Vector4f(); // Four Indices
+    public Vector3f getNormal() {
+        return normal;
+    }
+
+    public void setNormal(Vector3f normal) {
+        this.normal = normal;
+    }
+
+    public Vector3f getTexture() {
+        return texture;
+    }
+
+    public void setTexture(Vector3f texture) {
+        this.texture = texture;
+    }
+
+    //    public Vector4f vertex = new Vector4f(); // Four Indices
 //    public Vector4f normal = new Vector4f();
 //    public Face(Vector4f vertex, Vector4f normal){
 //        this.vertex = vertex;

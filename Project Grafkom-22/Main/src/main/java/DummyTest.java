@@ -21,6 +21,7 @@ public class DummyTest {
     private Window window = new Window(800, 800, "Dummy Main");
     Camera camera = new Camera();
     Projection projection = new Projection(window.getWidth(), window.getHeight());
+    ArrayList<Sphere> Ruang = new ArrayList<Sphere>();
 
     Player player ;
     List<ShaderProgram.ShaderModuleData> shaderModuleDataList = Arrays.asList(
@@ -73,9 +74,25 @@ public class DummyTest {
                 30, // Sector --> Titik
                 m);
         player.scaleObject(5f,5f,5f);
-        player.rotateObject(1f,0f,0f,0f);
+        player.translateObject(0.0f,0.0f,0.0f);
 
+
+        Ruang.add(new Sphere(
+                shaderModuleDataList,
+                new ArrayList<>(List.of(
+                )
+                ),
+                new Vector4f(124f/255, 124f/255, 124f/255, 1.0f/255),0.0,
+                new ArrayList<>(List.of(0f, 0f, 0f)),
+                20.0f,
+                0.2f,
+                28.0f,
+                15, // Stack -->
+                30, // Sector --> Titik
+                0));
+        Ruang.get(0).translateObject(0.0f,0.0f,0.0f);
     }
+
 
     public void input() {
 
@@ -168,6 +185,12 @@ public class DummyTest {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             input();
             player.draw(camera, projection);
+
+            for (Object obj3D : Ruang) {
+                obj3D.draw(camera, projection);
+            }
+
+            System.out.println(player.CheckCollide(Ruang.get(0)));
 
             //Restore State
             glDisableVertexAttribArray(0);

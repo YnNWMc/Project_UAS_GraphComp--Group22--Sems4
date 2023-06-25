@@ -401,7 +401,6 @@ public class LGM_Object extends Circle3D {
         return centerPoint;
     }
 
-
     public void getRotation(){
 
     }

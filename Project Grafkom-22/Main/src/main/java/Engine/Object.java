@@ -217,9 +217,8 @@ public class Object extends ShaderProgram implements Collideable{
     public Matrix4f getModel(){
         return model;
     }
-    public boolean Collide(Player p){
-
-
+    public boolean CheckCollide(Sphere x){
+        //Gk dipake
         return false;
     }
 

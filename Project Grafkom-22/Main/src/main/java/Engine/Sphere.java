@@ -18,72 +18,71 @@ import static org.lwjgl.opengl.GL20.glVertexAttribPointer;
 import static org.lwjgl.opengl.GL30.glBindVertexArray;
 import static org.lwjgl.opengl.GL30.glGenVertexArrays;
 
-public class Sphere extends Circle3D{
+public class Sphere extends Circle3D {
+    private float minX, minY, minZ;
+    private float maxX, maxY, maxZ;
     float rZ;
     int stackCount;
     int sectorCount;
     List<Vector3f> normal;
     int nbo;
-    Model m = new Model();
-
+    Model m ;
+    BoundingBox boundingBox ;
     public Sphere(List<ShaderModuleData> shaderModuleDataList, List<Vector3f> vertices, Vector4f color,
-                  double r, ArrayList<Float> centerPoint, float rX, float rY, float rZ, int stackCount, int sectorCount, Model m)
-    {
+                  double r, ArrayList<Float> centerPoint, float rX, float rY, float rZ, int stackCount, int sectorCount, Model m) {
         super(shaderModuleDataList, vertices, color, centerPoint, rX, rY);
         this.rZ = rZ;
-        this.stackCount = stackCount;
         this.stackCount = stackCount;
         this.sectorCount = sectorCount;
         this.m = m;
         createImport();
+        calculateBoundingBox();
+        boundingBox = new BoundingBox(getWidth(),getHeight(),getLength());
         setupVAOVBO();
     }
+
     public Sphere(List<ShaderModuleData> shaderModuleDataList, List<Vector3f> vertices, Vector4f color, double r, ArrayList<Float> centerPoint, float rX, float rY, float rZ, int stackCount, int sectorCount, int option) {
         super(shaderModuleDataList, vertices, color, centerPoint, rX, rY);
         this.rZ = rZ;
         this.stackCount = stackCount;
         this.sectorCount = sectorCount;
 
-        if(option == 0){
+        if (option == 0) {
             createBox();
-        }else if(option == 1){
+        } else if (option == 1) {
             createSphereElipsoid();
 
-        }
-        else if(option == 2){
+        } else if (option == 2) {
             createTabung();
 
-        }
-        else if(option == 3){
+        } else if (option == 3) {
             createSphere();
 
-        }
-        else if(option == 4){
+        } else if (option == 4) {
             createHyperboloid1();
 
-        }
-        else if(option == 5){
+        } else if (option == 5) {
             createHyperboloid2();
 
-        }
-        else if(option == 6){
+        } else if (option == 6) {
             createEllipticCone();
 
-        }
-        else if(option == 7){
+        } else if (option == 7) {
             createEllipticParaboloid();
 
-        }
-        else if(option == 8){
+        } else if (option == 8) {
             createHyperboloidParaboloid();
-        }
-        else if(option == 9){
+        } else if (option == 9) {
             createPotato();
         }
+
+        calculateBoundingBox();
+        boundingBox = new BoundingBox(getWidth(),getHeight(),getLength());
         setupVAOVBO();
     }
+
     @Override
-    public void setupVAOVBO(){
+    public void setupVAOVBO() {
         //// VAOVBONBO UNTUK SHADING
 
         //Setup VAOVBO, panggil fungsi parent
@@ -92,7 +91,7 @@ public class Sphere extends Circle3D{
         nbo = glGenBuffers();
         glBindBuffer(GL_ARRAY_BUFFER, nbo);
         //Mengirim vertices ke shader
-        glBufferData(GL_ARRAY_BUFFER,Utils.listoFloat(normal),GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, Utils.listoFloat(normal), GL_STATIC_DRAW);
 //        Ver New Directional Light
 //        uniformsMap.createUniform("dirLight");
 //        uniformsMap.createUniform("viewPos");
@@ -102,115 +101,116 @@ public class Sphere extends Circle3D{
 //        uniformsMap.createUniform("lightPos");
 
 
-
-
     }
+
     @Override
     public void drawSetup(Camera camera, Projection projection) {
         //drawSetup untuk Shading
-        super.drawSetup(camera,projection);
+        super.drawSetup(camera, projection);
         //Bind NBO
         //Untuk Simpan VBO/NBO pada index ke-n
         glEnableVertexAttribArray(1);
         glBindBuffer(GL_ARRAY_BUFFER, nbo);
-        glVertexAttribPointer(1,3, GL_FLOAT, false, 0,0);
+        glVertexAttribPointer(1, 3, GL_FLOAT, false, 0, 0);
 //        uniformsMap.setUniform("lightColor", new Vector3f(1.0f,0.5f,.8f));
 //        uniformsMap.setUniform("lightPos", new Vector3f(0.0f,3.0f,2.4f));
-        uniformsMap.setUniform("dirLight.direction", new Vector3f(-0.2f,-1.0f, -0.3f));
-        uniformsMap.setUniform("dirLight.ambient", new Vector3f(0.05f,0.05f, 0.05f));
-        uniformsMap.setUniform("dirLight.diffuse", new Vector3f(0.4f,0.4f, 0.4f));
-        uniformsMap.setUniform("dirLight.specular", new Vector3f(0.5f,0.5f, 0.5f));
+        uniformsMap.setUniform("dirLight.direction", new Vector3f(-0.2f, -1.0f, -0.3f));
+        uniformsMap.setUniform("dirLight.ambient", new Vector3f(0.05f, 0.05f, 0.05f));
+        uniformsMap.setUniform("dirLight.diffuse", new Vector3f(0.4f, 0.4f, 0.4f));
+        uniformsMap.setUniform("dirLight.specular", new Vector3f(0.5f, 0.5f, 0.5f));
 
 //        posisi PointLight
-        Vector3f[] _pointLightPositions ={
-                new Vector3f(0.7f,0.2f,2.0f),
-                new Vector3f(2.3f,-3.3f,-4.0f),
-                new Vector3f(4.0f,2.0f,-12.0f),
-                new Vector3f(0.0f,0.0f,-3.0f)
+        Vector3f[] _pointLightPositions = {
+                new Vector3f(0.7f, 0.2f, 2.0f),
+                new Vector3f(2.3f, -3.3f, -4.0f),
+                new Vector3f(4.0f, 2.0f, -12.0f),
+                new Vector3f(0.0f, 0.0f, -3.0f)
 //                new Vector3f(0.7f,0.2f,2.0f),
         };
-        for(int i = 0; i < _pointLightPositions.length;i++){
-            uniformsMap.setUniform("pointLights["+ i +"].position", _pointLightPositions[i]);
+        for (int i = 0; i < _pointLightPositions.length; i++) {
+            uniformsMap.setUniform("pointLights[" + i + "].position", _pointLightPositions[i]);
 
-            uniformsMap.setUniform("pointLights["+ i +"].ambient", new Vector3f(0.05f,0.05f,0.05f));
+            uniformsMap.setUniform("pointLights[" + i + "].ambient", new Vector3f(0.05f, 0.05f, 0.05f));
 
-            uniformsMap.setUniform("pointLights["+ i +"].diffuse", new Vector3f(0.8f,0.8f,0.8f));
+            uniformsMap.setUniform("pointLights[" + i + "].diffuse", new Vector3f(0.8f, 0.8f, 0.8f));
 
-            uniformsMap.setUniform("pointLights["+ i +"].specular", new Vector3f(1f,1f,1f));
+            uniformsMap.setUniform("pointLights[" + i + "].specular", new Vector3f(1f, 1f, 1f));
 
-            uniformsMap.setUniform("pointLights["+ i +"].constant", (1f));
+            uniformsMap.setUniform("pointLights[" + i + "].constant", (1f));
 
-            uniformsMap.setUniform("pointLights["+ i +"].linear", (0.09f));
+            uniformsMap.setUniform("pointLights[" + i + "].linear", (0.09f));
 
-            uniformsMap.setUniform("pointLights["+ i +"].quadratic", (0.032f));
+            uniformsMap.setUniform("pointLights[" + i + "].quadratic", (0.032f));
         }
 
 //        SpotLight
         uniformsMap.setUniform("spotLight.position", camera.getPosition());
         uniformsMap.setUniform("spotLight.direction", camera.getDirection());
-        uniformsMap.setUniform("spotLight.ambient", new Vector3f(0.0f,0.0f, 0.0f));
-        uniformsMap.setUniform("spotLight.diffuse", new Vector3f(1.0f,1.0f, 1.0f));
-        uniformsMap.setUniform("spotLight.specular", new Vector3f(1.0f,1.0f, 1.0f));
+        uniformsMap.setUniform("spotLight.ambient", new Vector3f(0.0f, 0.0f, 0.0f));
+        uniformsMap.setUniform("spotLight.diffuse", new Vector3f(1.0f, 1.0f, 1.0f));
+        uniformsMap.setUniform("spotLight.specular", new Vector3f(1.0f, 1.0f, 1.0f));
         uniformsMap.setUniform("spotLight.constant", (1f));
         uniformsMap.setUniform("spotLight.linear", (0.09f));
         uniformsMap.setUniform("spotLight.quadratic", (0.032f));
-        uniformsMap.setUniform("spotLight.cutOff", (float)(Math.cos(Math.toRadians(100))));
-        uniformsMap.setUniform("spotLight.outerCutOff", (float)(Math.cos(Math.toRadians(100))));
+        uniformsMap.setUniform("spotLight.cutOff", (float) (Math.cos(Math.toRadians(100))));
+        uniformsMap.setUniform("spotLight.outerCutOff", (float) (Math.cos(Math.toRadians(100))));
 
         uniformsMap.setUniform("viewPos", camera.getPosition());
     }
 
-    public void draw(Camera camera, Projection projection){
-        drawSetup(camera,projection);
+    public void draw(Camera camera, Projection projection) {
+        drawSetup(camera, projection);
         // Draw vertices
         glLineWidth(1);
         glPointSize(1);
         glDrawArrays(GL_TRIANGLES, 0, vertices.size());
-        for(Object child : getChildObject()){
-            child.draw(camera,projection);
+        for (Object child : getChildObject()) {
+            child.draw(camera, projection);
         }
     }
-    public void createImport(){
+
+    public void createImport() {
         normal = new ArrayList<>();
-        for(Face face : m.faces){
-            Vector3f n1 = m.normals.get((int) face.normal.x-1);
+        for (Face face : m.faces) {
+            Vector3f n1 = m.normals.get((int) face.normal.x - 1);
             normal.add(n1);
-            Vector3f v1 = m.vertices.get((int) face.vertex.x-1);
+            Vector3f v1 = m.vertices.get((int) face.vertex.x - 1);
             vertices.add(v1);
 
-            Vector3f n2 = m.normals.get((int) face.normal.y-1);
+            Vector3f n2 = m.normals.get((int) face.normal.y - 1);
             normal.add(n2);
-            Vector3f v2 = m.vertices.get((int) face.vertex.y-1);
+            Vector3f v2 = m.vertices.get((int) face.vertex.y - 1);
             vertices.add(v2);
 
-            Vector3f n3 = m.normals.get((int) face.normal.z-1);
+            Vector3f n3 = m.normals.get((int) face.normal.z - 1);
             normal.add(n3);
-            Vector3f v3 = m.vertices.get((int) face.vertex.z-1);
+            Vector3f v3 = m.vertices.get((int) face.vertex.z - 1);
             vertices.add(v3);
         }
     }
 
-    public void createImport2(){
+    public void createImport2() {
         //Perlu Fix
         normal = new ArrayList<>();
-        for(Face face : m.faces){
-            Vector3f n1 = m.normals.get((int) face.normal.x-1);
+        for (Face face : m.faces) {
+            Vector3f n1 = m.normals.get((int) face.normal.x - 1);
             normal.add(n1);
-            Vector3f v1 = m.vertices.get((int) face.vertex.x-1);
+            Vector3f v1 = m.vertices.get((int) face.vertex.x - 1);
             vertices.add(v1);
 
-            Vector3f n2 = m.normals.get((int) face.normal.y-1);
+            Vector3f n2 = m.normals.get((int) face.normal.y - 1);
             normal.add(n2);
-            Vector3f v2 = m.vertices.get((int) face.vertex.y-1);
+            Vector3f v2 = m.vertices.get((int) face.vertex.y - 1);
             vertices.add(v2);
 
-            Vector3f n3 = m.normals.get((int) face.normal.z-1);
+            Vector3f n3 = m.normals.get((int) face.normal.z - 1);
             normal.add(n3);
-            Vector3f v3 = m.vertices.get((int) face.vertex.z-1);
+            Vector3f v3 = m.vertices.get((int) face.vertex.z - 1);
             vertices.add(v3);
         }
     }
-    public void createBox(){
+
+    public void createBox() {
         vertices.clear();
         Vector3f temp = new Vector3f();
         ArrayList<Vector3f> tempVertices = new ArrayList<>();
@@ -314,73 +314,74 @@ public class Sphere extends Circle3D{
 
         normal = new ArrayList<>(Arrays.asList(
                 //belakang
-                new Vector3f(0.0f,0.0f,-1.0f),
-                new Vector3f(0.0f,0.0f,-1.0f),
-                new Vector3f(0.0f,0.0f,-1.0f),
-                new Vector3f(0.0f,0.0f,-1.0f),
-                new Vector3f(0.0f,0.0f,-1.0f),
-                new Vector3f(0.0f,0.0f,-1.0f),
+                new Vector3f(0.0f, 0.0f, -1.0f),
+                new Vector3f(0.0f, 0.0f, -1.0f),
+                new Vector3f(0.0f, 0.0f, -1.0f),
+                new Vector3f(0.0f, 0.0f, -1.0f),
+                new Vector3f(0.0f, 0.0f, -1.0f),
+                new Vector3f(0.0f, 0.0f, -1.0f),
                 //depan
-                new Vector3f(0.0f,0.0f,1.0f),
-                new Vector3f(0.0f,0.0f,1.0f),
-                new Vector3f(0.0f,0.0f,1.0f),
-                new Vector3f(0.0f,0.0f,1.0f),
-                new Vector3f(0.0f,0.0f,1.0f),
-                new Vector3f(0.0f,0.0f,1.0f),
+                new Vector3f(0.0f, 0.0f, 1.0f),
+                new Vector3f(0.0f, 0.0f, 1.0f),
+                new Vector3f(0.0f, 0.0f, 1.0f),
+                new Vector3f(0.0f, 0.0f, 1.0f),
+                new Vector3f(0.0f, 0.0f, 1.0f),
+                new Vector3f(0.0f, 0.0f, 1.0f),
                 //kiri
-                new Vector3f(-1.0f,0.0f,0.0f),
-                new Vector3f(-1.0f,0.0f,0.0f),
-                new Vector3f(-1.0f,0.0f,0.0f),
-                new Vector3f(-1.0f,0.0f,0.0f),
-                new Vector3f(-1.0f,0.0f,0.0f),
-                new Vector3f(-1.0f,0.0f,0.0f),
+                new Vector3f(-1.0f, 0.0f, 0.0f),
+                new Vector3f(-1.0f, 0.0f, 0.0f),
+                new Vector3f(-1.0f, 0.0f, 0.0f),
+                new Vector3f(-1.0f, 0.0f, 0.0f),
+                new Vector3f(-1.0f, 0.0f, 0.0f),
+                new Vector3f(-1.0f, 0.0f, 0.0f),
                 //kanan
-                new Vector3f(1.0f,0.0f,0.0f),
-                new Vector3f(1.0f,0.0f,0.0f),
-                new Vector3f(1.0f,0.0f,0.0f),
-                new Vector3f(1.0f,0.0f,0.0f),
-                new Vector3f(1.0f,0.0f,0.0f),
-                new Vector3f(1.0f,0.0f,0.0f),
+                new Vector3f(1.0f, 0.0f, 0.0f),
+                new Vector3f(1.0f, 0.0f, 0.0f),
+                new Vector3f(1.0f, 0.0f, 0.0f),
+                new Vector3f(1.0f, 0.0f, 0.0f),
+                new Vector3f(1.0f, 0.0f, 0.0f),
+                new Vector3f(1.0f, 0.0f, 0.0f),
                 //bawah
-                new Vector3f(0.0f,-1.0f,0.0f),
-                new Vector3f(0.0f,-1.0f,0.0f),
-                new Vector3f(0.0f,-1.0f,0.0f),
-                new Vector3f(0.0f,-1.0f,0.0f),
-                new Vector3f(0.0f,-1.0f,0.0f),
-                new Vector3f(0.0f,-1.0f,0.0f),
+                new Vector3f(0.0f, -1.0f, 0.0f),
+                new Vector3f(0.0f, -1.0f, 0.0f),
+                new Vector3f(0.0f, -1.0f, 0.0f),
+                new Vector3f(0.0f, -1.0f, 0.0f),
+                new Vector3f(0.0f, -1.0f, 0.0f),
+                new Vector3f(0.0f, -1.0f, 0.0f),
                 //atas
-                new Vector3f(0.0f,1.0f,0.0f),
-                new Vector3f(0.0f,1.0f,0.0f),
-                new Vector3f(0.0f,1.0f,0.0f),
-                new Vector3f(0.0f,1.0f,0.0f),
-                new Vector3f(0.0f,1.0f,0.0f),
-                new Vector3f(0.0f,1.0f,0.0f)
+                new Vector3f(0.0f, 1.0f, 0.0f),
+                new Vector3f(0.0f, 1.0f, 0.0f),
+                new Vector3f(0.0f, 1.0f, 0.0f),
+                new Vector3f(0.0f, 1.0f, 0.0f),
+                new Vector3f(0.0f, 1.0f, 0.0f),
+                new Vector3f(0.0f, 1.0f, 0.0f)
         ));
     }
 
-    public void createSphereElipsoid(){
+    public void createSphereElipsoid() {
         vertices.clear();
         ArrayList<Vector3f> temp = new ArrayList<>();
 
-        for(double v = -Math.PI/2; v<= Math.PI/2; v+=Math.PI/180){
-            for(double u = -Math.PI; u<= Math.PI; u+=Math.PI/180){
-                float x = rX* (float)(Math.cos(v) * Math.cos(u));
-                float y = rY * (float)(Math.cos(v) * Math.sin(u));
-                float z = rZ * (float)(Math.sin(v));
-                temp.add(new Vector3f(x,y,z));
+        for (double v = -Math.PI / 2; v <= Math.PI / 2; v += Math.PI / 180) {
+            for (double u = -Math.PI; u <= Math.PI; u += Math.PI / 180) {
+                float x = rX * (float) (Math.cos(v) * Math.cos(u));
+                float y = rY * (float) (Math.cos(v) * Math.sin(u));
+                float z = rZ * (float) (Math.sin(v));
+                temp.add(new Vector3f(x, y, z));
             }
         }
         vertices = temp;
     }
-    public void createTabung(){
+
+    public void createTabung() {
         vertices.clear();
         ArrayList<Vector3f> temp = new ArrayList<>();
-        for(double i = 0 ; i <= 360 ; i += 0.1f){
-            float x = centerPoint.get(0) + rX * (float)Math.cos(Math.toRadians(i));
-            float y = centerPoint.get(1) + rY * (float)Math.sin(Math.toRadians(i));
+        for (double i = 0; i <= 360; i += 0.1f) {
+            float x = centerPoint.get(0) + rX * (float) Math.cos(Math.toRadians(i));
+            float y = centerPoint.get(1) + rY * (float) Math.sin(Math.toRadians(i));
 
-            temp.add(new Vector3f(x,y,0f));
-            temp.add(new Vector3f(x,y,-rZ));
+            temp.add(new Vector3f(x, y, 0f));
+            temp.add(new Vector3f(x, y, -rZ));
         }
         vertices = temp;
     }
@@ -390,29 +391,30 @@ public class Sphere extends Circle3D{
         ArrayList<Vector3f> temp = new ArrayList<>();
         for (int i = 0; i < 360; i++) {
             float rad = (float) (i * Math.PI / 180);
-            float x = (float) (rX*10 * Math.cos(rad) * (1.0 + 0.2 * Math.sin(3 * rad)));
-            float y = (float) (rY*10 * Math.sin(rad) * (1.0 + 0.1 * Math.sin(3 * rad)));
-            float z = (float) (rZ*10 * Math.sin(3 * rad) * 0.2);
+            float x = (float) (rX * 10 * Math.cos(rad) * (1.0 + 0.2 * Math.sin(3 * rad)));
+            float y = (float) (rY * 10 * Math.sin(rad) * (1.0 + 0.1 * Math.sin(3 * rad)));
+            float z = (float) (rZ * 10 * Math.sin(3 * rad) * 0.2);
 
-            temp.add(new Vector3f(x,y,rZ));
-            temp.add(new Vector3f(x,y,z));
+            temp.add(new Vector3f(x, y, rZ));
+            temp.add(new Vector3f(x, y, z));
         }
         vertices = temp;
     }
 
-    public void createSphere(){
+    public void createSphere() {
         ArrayList<Vector3f> temp = new ArrayList<>();
 
-        for(double v = -Math.PI/2; v<= Math.PI/2; v+=Math.PI/9){
-            for(double u = -Math.PI; u<= Math.PI; u+=Math.PI/9){
-                float x = this.rX * (float)(Math.cos(v) * Math.cos(u));
-                float y = this.rY * (float)(Math.cos(v) * Math.sin(u));
-                float z = this.rZ * (float)(Math.sin(v));
-                temp.add(new Vector3f(x,y,z));
+        for (double v = -Math.PI / 2; v <= Math.PI / 2; v += Math.PI / 9) {
+            for (double u = -Math.PI; u <= Math.PI; u += Math.PI / 9) {
+                float x = this.rX * (float) (Math.cos(v) * Math.cos(u));
+                float y = this.rY * (float) (Math.cos(v) * Math.sin(u));
+                float z = this.rZ * (float) (Math.sin(v));
+                temp.add(new Vector3f(x, y, z));
             }
         }
         vertices = temp;
     }
+
     public void createSphere2() {
         vertices.clear();
 
@@ -444,12 +446,12 @@ public class Sphere extends Circle3D{
         vertices.clear();
         ArrayList<Vector3f> temp = new ArrayList<>();
 
-        for(double v = -Math.PI/2; v<= Math.PI/2; v+=Math.PI/60){
-            for(double u = -Math.PI; u<= Math.PI; u+=Math.PI/60){
-                float x = rX * (float)((1/Math.cos(v)) * Math.cos(u));
-                float y = rY * (float)((1/Math.cos(v)) * Math.sin(u));
-                float z = rZ * (float)(Math.tan(v));
-                temp.add(new Vector3f(x,z,y));
+        for (double v = -Math.PI / 2; v <= Math.PI / 2; v += Math.PI / 60) {
+            for (double u = -Math.PI; u <= Math.PI; u += Math.PI / 60) {
+                float x = rX * (float) ((1 / Math.cos(v)) * Math.cos(u));
+                float y = rY * (float) ((1 / Math.cos(v)) * Math.sin(u));
+                float z = rZ * (float) (Math.tan(v));
+                temp.add(new Vector3f(x, z, y));
             }
         }
         vertices = temp;
@@ -459,17 +461,18 @@ public class Sphere extends Circle3D{
         vertices.clear();
         ArrayList<Vector3f> temp = new ArrayList<>();
 
-        for(double v = -Math.PI/2; v<= Math.PI/2; v+=Math.PI/60){
-            for(double u = -Math.PI/2; u<= Math.PI/2; u+=Math.PI/60){
-                float x = 0.5f * (float)((1/Math.cos(v)) * Math.cos(u));
-                float y = 0.5f * (float)((1/Math.cos(v)) * Math.sin(u));
-                float z = 0.5f * (float)(Math.tan(v));
-                temp.add(new Vector3f(x,z,y));
+        for (double v = -Math.PI / 2; v <= Math.PI / 2; v += Math.PI / 60) {
+            for (double u = -Math.PI / 2; u <= Math.PI / 2; u += Math.PI / 60) {
+                float x = 0.5f * (float) ((1 / Math.cos(v)) * Math.cos(u));
+                float y = 0.5f * (float) ((1 / Math.cos(v)) * Math.sin(u));
+                float z = 0.5f * (float) (Math.tan(v));
+                temp.add(new Vector3f(x, z, y));
             }
         }
         vertices = temp;
 
     }
+
     public void createEllipticCone() {
         vertices.clear();
         ArrayList<Vector3f> temp = new ArrayList<>();
@@ -481,16 +484,17 @@ public class Sphere extends Circle3D{
                 temp.add(new Vector3f(x,z,y));
             }
         }*/
-        for(double v = 0; v<= 100; v+=0.05){
-            for(double u = -Math.PI; u<= Math.PI; u+=1){
-                float x = 0.5f * (float)u * (float)(Math.cos(v));
-                float y = 0.5f * (float)u * (float)((Math.sin(v)));
-                float z = 0.5f * (float)u;
-                temp.add(new Vector3f(x,z,y));
+        for (double v = 0; v <= 100; v += 0.05) {
+            for (double u = -Math.PI; u <= Math.PI; u += 1) {
+                float x = 0.5f * (float) u * (float) (Math.cos(v));
+                float y = 0.5f * (float) u * (float) ((Math.sin(v)));
+                float z = 0.5f * (float) u;
+                temp.add(new Vector3f(x, z, y));
             }
         }
         vertices = temp;
     }
+
     public void createEllipticConev2() {
         vertices.clear();
         ArrayList<Vector3f> temp = new ArrayList<>();
@@ -510,38 +514,40 @@ public class Sphere extends Circle3D{
     public void createEllipticConev3() {
         vertices.clear();
         ArrayList<Vector3f> temp = new ArrayList<>();
-        for(double v = 0; v<= 100; v+=0.05){
-            for(double u = -Math.PI; u<= Math.PI; u+=0.01){
-                float x = 0.5f * (float)v * (float)(Math.tan(u));
-                float y = 0.5f * (float)v * (float)((1/Math.cos(u)));
-                float z = 0.5f * (float)Math.pow(v,2);
-                temp.add(new Vector3f(x,y,z));
+        for (double v = 0; v <= 100; v += 0.05) {
+            for (double u = -Math.PI; u <= Math.PI; u += 0.01) {
+                float x = 0.5f * (float) v * (float) (Math.tan(u));
+                float y = 0.5f * (float) v * (float) ((1 / Math.cos(u)));
+                float z = 0.5f * (float) Math.pow(v, 2);
+                temp.add(new Vector3f(x, y, z));
             }
         }
         vertices = temp;
     }
+
     public void createEllipticParaboloid() {
         vertices.clear();
         ArrayList<Vector3f> temp = new ArrayList<>();
-        for(double v = 0; v<= 100; v+=0.05){
-            for(double u = -Math.PI; u<= Math.PI; u+=0.01){
-                float x = 0.5f * (float)v * (float)(Math.cos(u));
-                float y = 0.5f * (float)v * (float)((Math.sin(u)));
-                float z = 0.5f * (float)Math.pow(v,2);
-                temp.add(new Vector3f(x,z,y));
+        for (double v = 0; v <= 100; v += 0.05) {
+            for (double u = -Math.PI; u <= Math.PI; u += 0.01) {
+                float x = 0.5f * (float) v * (float) (Math.cos(u));
+                float y = 0.5f * (float) v * (float) ((Math.sin(u)));
+                float z = 0.5f * (float) Math.pow(v, 2);
+                temp.add(new Vector3f(x, z, y));
             }
         }
         vertices = temp;
     }
+
     public void createHyperboloidParaboloid() {
         vertices.clear();
         ArrayList<Vector3f> temp = new ArrayList<>();
-        for(double v = 0; v<= 100; v+=0.01){
-            for(double u = -Math.PI; u<= Math.PI; u+=0.666){
-                float x = 0.125f * (float)v * (float)(Math.tan(u));
-                float y = 0.25f * (float)v * (float)((1/Math.cos(u)));
-                float z = 0.5f * (float)Math.pow(v,2);
-                temp.add(new Vector3f(x,y,z));
+        for (double v = 0; v <= 100; v += 0.01) {
+            for (double u = -Math.PI; u <= Math.PI; u += 0.666) {
+                float x = 0.125f * (float) v * (float) (Math.tan(u));
+                float y = 0.25f * (float) v * (float) ((1 / Math.cos(u)));
+                float z = 0.5f * (float) Math.pow(v, 2);
+                temp.add(new Vector3f(x, y, z));
             }
         }
         vertices = temp;
@@ -572,7 +578,7 @@ public class Sphere extends Circle3D{
         float newcpy = getCenterPoint().get(0) * rotationMatrix.m10() + getCenterPoint().get(1) * rotationMatrix.m11() + getCenterPoint().get(2) * rotationMatrix.m12();
         float newcpz = getCenterPoint().get(0) * rotationMatrix.m20() + getCenterPoint().get(1) * rotationMatrix.m21() + getCenterPoint().get(2) * rotationMatrix.m22();
 
-        ArrayList<Float> xxx = new ArrayList<Float>(Arrays.asList(newcpx,newcpy,newcpz));
+        ArrayList<Float> xxx = new ArrayList<Float>(Arrays.asList(newcpx, newcpy, newcpz));
         setCenterPoint(xxx);
 
         for (Object child : childObject) {
@@ -582,11 +588,6 @@ public class Sphere extends Circle3D{
         translateObject(tempx, tempy, tempz);
     }
 
-    public boolean Collide(Player p){
-
-
-        return false;
-    }
 
 
     public float getrZ() {
@@ -597,20 +598,147 @@ public class Sphere extends Circle3D{
         this.rZ = rZ;
     }
 
+
+    public boolean CheckCollide(Sphere obj) {
+        // Calculate the half widths, half heights, and half lengths of the bounding boxes
+        float halfWidth1 = boundingBox.getWidth() / 2;
+        float halfHeight1 = boundingBox.getHeight() / 2;
+        float halfLength1 = boundingBox.getLength() / 2;
+
+        float halfWidth2 = obj.boundingBox.getWidth() / 2;
+        float halfHeight2 = obj.boundingBox.getHeight() / 2;
+        float halfLength2 = obj.boundingBox.getLength() / 2;
+
+        // Calculate the centers of the bounding boxes
+        float center1X = getMinX() + halfWidth1;
+        float center1Y = getMinY() + halfHeight1;
+        float center1Z = getMinZ() + halfLength1;
+
+        float center2X = obj.getMinX() + halfWidth2;
+        float center2Y = obj.getMinY() + halfHeight2;
+        float center2Z = obj.getMinZ() + halfLength2;
+
+        // Calculate the distances between the centers of the bounding boxes
+        float distanceX = Math.abs(center1X - center2X);
+        float distanceY = Math.abs(center1Y - center2Y);
+        float distanceZ = Math.abs(center1Z - center2Z);
+        // Check for overlap in each dimension
+        if (distanceX <= halfWidth1 + halfWidth2 && distanceY <= halfHeight1 + halfHeight2 && distanceZ <= halfLength1 + halfLength2) {
+            // Collision detected
+            return true;
+        }
+
+        // No collision detected
+        return false;
+    }
+    public void calculateBoundingBox() {
+        if(this.m != null){
+            // Initialize min and max coordinates with the first vertex
+            Vector3f firstVertex = m.vertices.get(0);
+            minX = maxX = firstVertex.x;
+            minY = maxY = firstVertex.y;
+            minZ = maxZ = firstVertex.z;
+
+            // Find the min and max values for each coordinate
+            for (Vector3f vertex : m.vertices) {
+                if (vertex.x < minX) minX = vertex.x;
+                if (vertex.x > maxX) maxX = vertex.x;
+
+                if (vertex.y < minY) minY = vertex.y;
+                if (vertex.y > maxY) maxY = vertex.y;
+
+                if (vertex.z < minZ) minZ = vertex.z;
+                if (vertex.z > maxZ) maxZ = vertex.z;
+            }
+        }
+        else{
+            // Initialize min and max coordinates with the first vertex
+            Vector3f firstVertex = vertices.get(0);
+            minX = maxX = firstVertex.x;
+            minY = maxY = firstVertex.y;
+            minZ = maxZ = firstVertex.z;
+
+            // Find the min and max values for each coordinate
+            for (Vector3f vertex : vertices) {
+                if (vertex.x < minX) minX = vertex.x;
+                if (vertex.x > maxX) maxX = vertex.x;
+
+                if (vertex.y < minY) minY = vertex.y;
+                if (vertex.y > maxY) maxY = vertex.y;
+
+                if (vertex.z < minZ) minZ = vertex.z;
+                if (vertex.z > maxZ) maxZ = vertex.z;
+            }
+        }
+
+    }
+
+
+    public BoundingBox getBoundingBox() {
+        return boundingBox;
+    }
+
+    public void setBoundingBox(BoundingBox boundingBox) {
+        this.boundingBox = boundingBox;
+    }
+
+    public float getWidth() {
+        return maxX - minX;
+    }
+
+    public float getHeight() {
+        return maxY - minY;
+    }
+
+    public float getLength() {
+        return maxZ - minZ;
+    }
+
+    public float getMinX() {
+        return minX;
+    }
+
+    public void setMinX(float minX) {
+        this.minX = minX;
+    }
+
+    public float getMinY() {
+        return minY;
+    }
+
+    public void setMinY(float minY) {
+        this.minY = minY;
+    }
+
+    public float getMinZ() {
+        return minZ;
+    }
+
+    public void setMinZ(float minZ) {
+        this.minZ = minZ;
+    }
+
+    public float getMaxX() {
+        return maxX;
+    }
+
+    public void setMaxX(float maxX) {
+        this.maxX = maxX;
+    }
+
+    public float getMaxY() {
+        return maxY;
+    }
+
+    public void setMaxY(float maxY) {
+        this.maxY = maxY;
+    }
+
+    public float getMaxZ() {
+        return maxZ;
+    }
+
+    public void setMaxZ(float maxZ) {
+        this.maxZ = maxZ;
+    }
 }
-//    public void rotateObjectOnPoint(Float degree, Float x,Float y,Float z, Float tempx, Float tempy, Float tempz){
-//        translateObject(-tempx,-tempy,-tempz);
-//        model = new Matrix4f().rotate(degree,x,y,z).mul(new Matrix4f(model));
-//        //updateCenterPoint();
-//        float newcpx =(float) (getCenterPoint().get(0) * Math.cos((double) (float)(Math.toRadians(degree))) - (getCenterPoint().get(1) * Math.sin((double) (float)(Math.toRadians(degree)))));
-//        float newcpy =(float) ((getCenterPoint().get(0) * Math.sin((double) (float)(Math.toRadians(degree))) + (getCenterPoint().get(1) * Math.cos((double) (float)(Math.toRadians(degree))))));
-//
-//        ArrayList<Float> xxx = new ArrayList<Float>(Arrays.asList(newcpx,newcpx,getCenterPoint().get(2)));
-//        setCenterPoint(xxx);
-//
-//        for(Object child:childObject) {
-//            ((Sphere) child).rotateObjectOnPoint(degree, x, y, z, tempx, tempy, tempz);
-//        }
-//
-//        translateObject(tempx,tempy,tempz);
-//    }
