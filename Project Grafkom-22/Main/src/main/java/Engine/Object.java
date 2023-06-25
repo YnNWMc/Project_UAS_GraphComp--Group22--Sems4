@@ -130,6 +130,17 @@ public class Object extends ShaderProgram implements Collideable{
         }
     }
 
+    public void draw(Camera camera, Projection projection,boolean cek){
+        drawSetup(camera,projection);
+        // Draw vertices
+        glLineWidth(10);
+        glPointSize(0);
+        glDrawArrays(GL_POLYGON, 0, vertices.size());
+        for(Object child : getChildObject()){
+            child.draw(camera,projection,cek);
+        }
+    }
+
     public void drawLine(Camera camera, Projection projection){
         drawSetup(camera,projection);
         // Draw vertices

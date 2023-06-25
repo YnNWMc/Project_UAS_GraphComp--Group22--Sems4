@@ -90,5 +90,7 @@
     <orderEntry type="library" name="Maven: com.code-disaster.steamworks4j:steamworks4j:1.9.0" level="project" />
     <orderEntry type="library" name="Maven: com.code-disaster.steamworks4j:steamworks4j-server:1.9.0" level="project" />
     <orderEntry type="library" name="PNGDecoder1" level="project" />
+    <orderEntry type="library" name="PNGDecoder2" level="project" />
+    <orderEntry type="library" name="PNGDecoder3" level="project" />
   </component>
 </module>

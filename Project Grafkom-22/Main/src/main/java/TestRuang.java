@@ -22,6 +22,7 @@ public class TestRuang {
         Camera camera = new Camera();
         Projection projection = new Projection(window.getWidth(), window.getHeight());
         Player player ;
+        boolean gelap = false;
         ArrayList<Object> Ruang = new ArrayList<Object>();
         List<ShaderProgram.ShaderModuleData> shaderModuleDataList = Arrays.asList(
                 new ShaderProgram.ShaderModuleData(
@@ -896,6 +897,15 @@ public class TestRuang {
             // MOVE CAMERA
         }
 //        camera.printPosition();
+
+        if(window.isKeyPressed(GLFW_KEY_P)){
+            if (!gelap){
+                gelap = true;
+            }
+            else gelap = false;
+        }
+
+
     }
 
 
@@ -909,10 +919,10 @@ public class TestRuang {
             glClearDepth(1.0f);
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             input();
-            player.draw(camera, projection);
+            player.draw(camera, projection,gelap);
 
             for (Object obj3D : Ruang) {
-                obj3D.draw(camera, projection);
+                obj3D.draw(camera, projection,gelap);
             }
 //            System.out.println("Cam X"+camera.getPosition().get(0));
 //            System.out.println("Cam Y"+camera.getPosition().get(1));
