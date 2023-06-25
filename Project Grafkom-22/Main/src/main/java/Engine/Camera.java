@@ -93,4 +93,9 @@ public class Camera {
     public void rotateObjectCamera(float x, float y){
         viewMatrix.rotateX(x).rotateY(y);
     }
+
+    public void printPosition(){
+        System.out.println("X : "+position.x+" Y : "+position.y+" Z : "+position.z);
+    }
+
 }
