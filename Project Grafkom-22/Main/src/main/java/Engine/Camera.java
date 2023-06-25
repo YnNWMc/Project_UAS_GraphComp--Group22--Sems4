@@ -29,6 +29,18 @@ public class Camera {
         return position;
     }
 
+    public float getPositionX() {
+        return position.x;
+    }
+
+    public float getPositionY() {
+        return position.y;
+    }
+    public float getPositionZ() {
+        return position.z;
+    }
+
+
     public Matrix4f getViewMatrix() {
         return viewMatrix;
     }
@@ -85,9 +97,20 @@ public class Camera {
         recalculate();
     }
 
+    public void setPositionTemp(Vector3f tempCam) {
+        position = tempCam;
+        recalculate();
+    }
+
+
+
     public void setRotation(float x, float y) {
         rotation.set(x, y);
         recalculate();
+    }
+
+    public Vector2f getRotation() {
+        return rotation;
     }
 
     public void rotateObjectCamera(float x, float y){
@@ -97,5 +120,7 @@ public class Camera {
     public void printPosition(){
         System.out.println("X : "+position.x+" Y : "+position.y+" Z : "+position.z);
     }
+
+
 
 }

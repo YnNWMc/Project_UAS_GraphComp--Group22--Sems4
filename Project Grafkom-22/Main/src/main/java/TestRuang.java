@@ -743,17 +743,24 @@ public class TestRuang {
         }
 
 
-    float maxCam = 180.0f;
-    float count = 0;
-    boolean hold= false;
-    boolean fromCCTV = false;
+    private float maxCam = 360.0f;
+    private float count = 0;
+    private boolean hold= false;
+    private boolean fromCCTV = false;
+    private float countLeft=0;
 
-    Vector3f tempCam;
-
+    //Menyimpan posisi kamera akhir karakter
+//    float tempCamX = camera.getPositionX();
+//    float tempCamY = camera.getPositionY();
+//    float tempCamZ = camera.getPositionZ();
+    Vector3f firsttempCam;
+    Vector3f tempCam = new Vector3f(0.0f, 2.3f, 0.5f);
+    Vector2f tempRotate = new Vector2f((float) Math.toRadians(0.0f), (float) Math.toRadians(180.0f));
     public void input() {
         //( 9.949E+0  1.275E+1 -9.942E+0)
 //        ( 9.994E+0  1.279E+1  1.798E+1)
-        System.out.println(camera.getPosition());
+//        System.out.println(camera.getPositionZ());
+
 
         if (window.isKeyPressed(GLFW_KEY_2) || window.isKeyPressed(GLFW_KEY_3)) {
             hold=true;
@@ -776,11 +783,13 @@ public class TestRuang {
             fromCCTV = true;
         }
 
+
         else{
             if(fromCCTV) {
                 //camera nanti mengikuti posisi player
-                camera.setPosition(0f, 5f, 0f);
-                camera.setRotation((float) Math.toRadians(0), (float) Math.toRadians(0));
+                projection.setFOV(projection.getBaseProj());
+                camera.setPosition(tempCam.x, tempCam.y, tempCam.z);
+                camera.setRotation(tempRotate.x, tempRotate.y);
                 fromCCTV = false;
             }
         }
@@ -796,19 +805,72 @@ public class TestRuang {
         }
 
         //Kontrol Player
+//        if(window.isKeyPressed(GLFW_KEY_W)){
+////            if(player.getCharacterDir())
+//            player.move("f", player);
+//            camera.moveForward(player.getCurrSpeed());
+//        }
+//        if(window.isKeyPressed(GLFW_KEY_S)){
+//            player.move("b", player);
+//            camera.moveBackwards(player.getCurrSpeed());
+//        }
+//        if(window.isKeyPressed(GLFW_KEY_A)){
+//            player.move("l", player);
+//        }
+//        if(window.isKeyPressed(GLFW_KEY_D)){
+//            player.move("r", player);
+//        }
         if(window.isKeyPressed(GLFW_KEY_W)){
-            player.move("f", player);
+
+//            if(player.getCharacterDir())
+//            Vector3f tempCenterPointsd = player.updateCenterPoint();
+//            player.translateObject(tempCenterPointsd.x * -1, tempCenterPointsd.y * -1, tempCenterPointsd.z * -1);
+//            if (countLeft<0.0f) {
+//                countLeft++;
+//                player.rotateObject(0.01f, 0f, 1f, 0f);
+//
+//            }
+//            else if(countLeft>0.0f) {
+//                countLeft--;
+//                player.rotateObject(0.01f, 0f, -1f, 0f);
+//
+//            }
+//            player.translateObject(tempCenterPointsd.x * 1, tempCenterPointsd.y * 1, tempCenterPointsd.z * 1);
+            player.translateObject(0.0f,0.0f, player.getCurrSpeed());
             camera.moveForward(player.getCurrSpeed());
+
         }
         if(window.isKeyPressed(GLFW_KEY_S)){
-            player.move("b", player);
+            player.translateObject(0.0f,0.0f,-player.getCurrSpeed());
             camera.moveBackwards(player.getCurrSpeed());
+
         }
         if(window.isKeyPressed(GLFW_KEY_A)){
-            player.move("l", player);
+            Vector3f tempCenterPointsd = player.updateCenterPoint();
+//            player.translateObject(tempCenterPointsd.x * -1, tempCenterPointsd.y * -1, tempCenterPointsd.z * -1);
+//            if (countLeft<=180f) {
+//                countLeft+=10;
+//                player.rotateObject(0.1f, 0f, 1f, 0f);
+//
+//            }
+//            player.translateObject(tempCenterPointsd.x * 1, tempCenterPointsd.y * 1, tempCenterPointsd.z * 1);
+//            if(countLeft>=180)
+            player.translateObject(player.getCurrSpeed(),0.0f,0.0f);
+            camera.moveLeft(player.getCurrSpeed());
+
         }
         if(window.isKeyPressed(GLFW_KEY_D)){
-            player.move("r", player);
+//            Vector3f tempCenterPointsd = player.updateCenterPoint();
+//            player.translateObject(tempCenterPointsd.x * -1, tempCenterPointsd.y * -1, tempCenterPointsd.z * -1);
+//            if (countLeft>=-180f) {
+//                countLeft-=10;
+//                player.rotateObject(0.1f, 0f, -1f, 0f);
+//
+//            }
+//            player.translateObject(tempCenterPointsd.x * 1, tempCenterPointsd.y * 1, tempCenterPointsd.z * 1);
+//            if(countLeft<=-180)
+            player.translateObject(-player.getCurrSpeed(),0.0f,0.0f);
+            camera.moveRight(player.getCurrSpeed());
         }
         //Kontrol Player
         if (window.isKeyPressed(GLFW_KEY_LEFT_CONTROL)) {

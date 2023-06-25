@@ -8,7 +8,7 @@ import java.util.List;
 
 public class Player extends Sphere{
     private float moveSpeed = 1;
-    private float rotateSpeed = 1f;
+    private float rotateSpeed = 0.1f;
     private int characterDir = 180;
     private float currSpeed = 0.05f;
     private float currRotateSpeed = 0;
