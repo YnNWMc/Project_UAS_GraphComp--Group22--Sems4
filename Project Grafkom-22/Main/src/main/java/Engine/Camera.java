@@ -33,12 +33,6 @@ public class Camera {
         return new Vector3f(viewMatrix.m00(), viewMatrix.m01(), viewMatrix.m02()).normalize();
     }
 
-    public void setOrientation(Vector3f forwardVector, Vector3f upVector) {
-        direction.set(forwardVector).normalize();
-        up.set(upVector).normalize();
-        right.set(direction).cross(up).normalize();
-        recalculate();
-    }
 
     public Vector3f getPosition() {
         return position;

@@ -2700,18 +2700,18 @@ public class Main {
             System.out.println("Z"+camera.getPosition().get(2));
             //Babi.get(0).getChildObject().get(0).getChildObject().get(5).drawLine(camera,projection);
 
-            for (Object objBabi : Babi) {
-                objBabi.draw(camera, projection);
-            }
-            for (Object objBG : BG) {
-                objBG.draw(camera, projection);
-            }
-            for (Object objLGM : LGMO) {
-                objLGM.draw(camera, projection);
-            }
-            for (Object wheezy : Penguin) {
-                wheezy.draw(camera, projection);
-            }
+//            for (Object objBabi : Babi) {
+//                objBabi.draw(camera, projection);
+//            }
+//            for (Object objBG : BG) {
+//                objBG.draw(camera, projection);
+//            }
+//            for (Object objLGM : LGMO) {
+//                objLGM.draw(camera, projection);
+//            }
+//            for (Object wheezy : Penguin) {
+//                wheezy.draw(camera, projection);
+//            }
 
             //Restore State
             glDisableVertexAttribArray(0);

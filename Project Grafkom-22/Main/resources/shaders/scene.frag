@@ -6,6 +6,10 @@ struct DirLight{
     vec3 specular;
 
 };
+out vec4 frag_color;
+uniform vec4 uni_color;
+
+
 uniform DirLight dirLight;
 struct PointLight{
     vec3 position;
@@ -38,8 +42,6 @@ struct SpotLight{
 };
 uniform SpotLight spotLight;
 
-out vec4 frag_color;
-uniform vec4 uni_color;
 uniform vec3 viewPos;
 in vec3 Normal;
 in vec3 FragPos;
@@ -133,7 +135,6 @@ void main() {
 
     //Spot Lights
     result += CalcSpotLight(spotLight, normal,FragPos,viewDir);
-
     frag_color = vec4(result * vec3(uni_color),1.0);//frag_color = vec4(1.0, 0.0, 0.0, 1.0); --> Param vec4(red,green,blue,alpha)
 }
 
