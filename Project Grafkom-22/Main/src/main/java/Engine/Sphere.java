@@ -1,8 +1,10 @@
 package Engine;
 
+import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -29,6 +31,7 @@ public class Sphere extends Circle3D{
     {
         super(shaderModuleDataList, vertices, color, centerPoint, rX, rY);
         this.rZ = rZ;
+        this.stackCount = stackCount;
         this.stackCount = stackCount;
         this.sectorCount = sectorCount;
         this.m = m;
@@ -150,8 +153,8 @@ public class Sphere extends Circle3D{
         uniformsMap.setUniform("spotLight.constant", (1f));
         uniformsMap.setUniform("spotLight.linear", (0.09f));
         uniformsMap.setUniform("spotLight.quadratic", (0.032f));
-        uniformsMap.setUniform("spotLight.cutOff", (float)(Math.cos(Math.toRadians(12.5f))));
-        uniformsMap.setUniform("spotLight.outerCutOff", (float)(Math.cos(Math.toRadians(12.5f))));
+        uniformsMap.setUniform("spotLight.cutOff", (float)(Math.cos(Math.toRadians(100))));
+        uniformsMap.setUniform("spotLight.outerCutOff", (float)(Math.cos(Math.toRadians(100))));
 
         uniformsMap.setUniform("viewPos", camera.getPosition());
     }
@@ -557,7 +560,43 @@ public class Sphere extends Circle3D{
         }
         vertices = temp;
     }*/
+    public void rotateObjectOnPoint(float degree, float x, float y, float z, float tempx, float tempy, float tempz) {
+        translateObject(-tempx, -tempy, -tempz);
 
+        Matrix4f rotationMatrix = new Matrix4f().rotate((float) Math.toRadians(degree), x, y, z);
+        model.mul(rotationMatrix);
+
+        // Update the center point
+        float newcpx = getCenterPoint().get(0) * rotationMatrix.m00() + getCenterPoint().get(1) * rotationMatrix.m01() + getCenterPoint().get(2) * rotationMatrix.m02();
+        float newcpy = getCenterPoint().get(0) * rotationMatrix.m10() + getCenterPoint().get(1) * rotationMatrix.m11() + getCenterPoint().get(2) * rotationMatrix.m12();
+        float newcpz = getCenterPoint().get(0) * rotationMatrix.m20() + getCenterPoint().get(1) * rotationMatrix.m21() + getCenterPoint().get(2) * rotationMatrix.m22();
+
+        ArrayList<Float> xxx = new ArrayList<Float>(Arrays.asList(newcpx,newcpy,newcpz));
+        setCenterPoint(xxx);
+
+        for (Object child : childObject) {
+            ((Sphere) child).rotateObjectOnPoint(degree, x, y, z, tempx, tempy, tempz);
+        }
+
+        translateObject(tempx, tempy, tempz);
+    }
+
+//    public void rotateObjectOnPoint(Float degree, Float x,Float y,Float z, Float tempx, Float tempy, Float tempz){
+//        translateObject(-tempx,-tempy,-tempz);
+//        model = new Matrix4f().rotate(degree,x,y,z).mul(new Matrix4f(model));
+//        //updateCenterPoint();
+//        float newcpx =(float) (getCenterPoint().get(0) * Math.cos((double) (float)(Math.toRadians(degree))) - (getCenterPoint().get(1) * Math.sin((double) (float)(Math.toRadians(degree)))));
+//        float newcpy =(float) ((getCenterPoint().get(0) * Math.sin((double) (float)(Math.toRadians(degree))) + (getCenterPoint().get(1) * Math.cos((double) (float)(Math.toRadians(degree))))));
+//
+//        ArrayList<Float> xxx = new ArrayList<Float>(Arrays.asList(newcpx,newcpx,getCenterPoint().get(2)));
+//        setCenterPoint(xxx);
+//
+//        for(Object child:childObject) {
+//            ((Sphere) child).rotateObjectOnPoint(degree, x, y, z, tempx, tempy, tempz);
+//        }
+//
+//        translateObject(tempx,tempy,tempz);
+//    }
 
     public float getrZ() {
         return rZ;
@@ -566,4 +605,5 @@ public class Sphere extends Circle3D{
     public void setrZ(float rZ) {
         this.rZ = rZ;
     }
+
 }

@@ -431,14 +431,14 @@ public class Wheezy {
                 Vector3f tempCenterPoint = bodyPart.get(0).getChildObject().get(5).getChildObject().get(0).updateCenterPoint();
                 bodyPart.get(0).getChildObject().get(5).getChildObject().get(0).translateObject(tempCenterPoint.x * -1,tempCenterPoint.y * -1,tempCenterPoint.z *-1);
                 counterParuh ++;
-                bodyPart.get(0).getChildObject().get(5).getChildObject().get(0).rotateObjectOnPoint((float) Math.toRadians(-0.1/1.5f), 1.0f, 0.0f, 0.0f,-0.44f, 0.3f, 0.51f);
+                //bodyPart.get(0).getChildObject().get(5).getChildObject().get(0).rotateObjectOnPoint((float) Math.toRadians(-0.1/1.5f), 1.0f, 0.0f, 0.0f,-0.44f, 0.3f, 0.51f);
                 bodyPart.get(0).getChildObject().get(5).getChildObject().get(0).translateObject(tempCenterPoint.x * 1,tempCenterPoint.y * 1,tempCenterPoint.z * 1);
             }
             else {
                 Vector3f tempCenterPoint2 = bodyPart.get(0).getChildObject().get(5).getChildObject().get(0).updateCenterPoint();
                 bodyPart.get(0).getChildObject().get(5).getChildObject().get(0).translateObject(tempCenterPoint2.x * -1,tempCenterPoint2.y * -1,tempCenterPoint2.z * -1);
                 counterParuh --;
-                bodyPart.get(0).getChildObject().get(5).getChildObject().get(0).rotateObjectOnPoint((float) Math.toRadians(0.1/1.5f), 1.0f, 0.0f, 0.0f,-0.44f, 0.3f, 0.51f);
+                //bodyPart.get(0).getChildObject().get(5).getChildObject().get(0).rotateObjectOnPoint((float) Math.toRadians(0.1/1.5f), 1.0f, 0.0f, 0.0f,-0.44f, 0.3f, 0.51f);
                 bodyPart.get(0).getChildObject().get(5).getChildObject().get(0).translateObject(tempCenterPoint2.x * 1, tempCenterPoint2.y* 1,tempCenterPoint2.z* 1);
             }
             if (counterParuh == 40.0f){

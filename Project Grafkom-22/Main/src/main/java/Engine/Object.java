@@ -157,15 +157,7 @@ public class Object extends ShaderProgram {
             child.rotateObject(degree,x,y,z);
         }
     }
-    public void rotateObjectOnPoint(Float degree, Float x,Float y,Float z, Float tempx, Float tempy, Float tempz){
-        translateObject(-tempx,-tempy,-tempz);
-        model = new Matrix4f().rotate(degree,x,y,z).mul(new Matrix4f(model));
-        //updateCenterPoint();
-        for(Object child:childObject){
-            child.rotateObjectOnPoint(degree,x,y,z, tempx,tempy,tempz);
-        }
-        translateObject(tempx,tempy,tempz);
-    }
+
 
     public void scaleObject(Float scaleX, Float scaleY, Float scaleZ){
         model = new Matrix4f().scale(scaleX,scaleY,scaleZ).mul(new Matrix4f(model));

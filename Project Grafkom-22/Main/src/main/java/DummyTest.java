@@ -22,7 +22,7 @@ public class DummyTest {
     Camera camera = new Camera();
     Projection projection = new Projection(window.getWidth(), window.getHeight());
 
-    ArrayList<Object> importX = new ArrayList<Object>();
+    Player player ;
     List<ShaderProgram.ShaderModuleData> shaderModuleDataList = Arrays.asList(
             new ShaderProgram.ShaderModuleData(
                     "Project Grafkom-22\\Main\\resources\\shaders\\scene.vert", GL_VERTEX_SHADER),
@@ -52,31 +52,48 @@ public class DummyTest {
         camera.setRotation((float) Math.toRadians(0.0f), (float) Math.toRadians(0.0f));
 
         try{
-            m = ObjLoader.loadModelwFace(new File("Project Grafkom-22/Main/src/blenderAssets/pintuDoraemon.obj"), false);
+            m = ObjLoader.loadModelwFace(new File("Project Grafkom-22/Main/src/blenderAssets/Character.obj"), false);
         }catch(FileNotFoundException e){
             e.printStackTrace();
         }catch (IOException e){
             e.printStackTrace();
         }
 
-        importX.add(new Sphere(
+        player = new Player(
                 shaderModuleDataList,
                 new ArrayList<>(
                 ),
                 new Vector4f(1.0f, 0.0f, 1.0f, 1.0f),
                 0.0,
                 new ArrayList<>(List.of(0f, 0f, 0f)),
-                4.0f,
-                0.1f,
-                8.0f,
+                10.0f,
+                10f,
+                10f,
                 15, // Stack -->
                 30, // Sector --> Titik
-                m));
+                m);
+        player.scaleObject(5f,5f,5f);
+        player.rotateObject(1f,0f,0f,0f);
 
     }
 
     public void input() {
 
+        if(window.isKeyPressed(GLFW_KEY_W)){
+            player.move("f", player);
+        }
+        if(window.isKeyPressed(GLFW_KEY_S)){
+            player.move("b", player);
+        }
+        if(window.isKeyPressed(GLFW_KEY_A)){
+            player.move("l", player);
+        }
+        if(window.isKeyPressed(GLFW_KEY_D)){
+            player.move("r", player);
+        }
+//        if(window.isKeyPressed(GLFW_KEY_SPACE)){
+//            player.jump(player);
+//        }
         if (window.isKeyPressed(GLFW_KEY_LEFT_ALT)) {
             camera.moveForward(0.12f);
         }
@@ -150,10 +167,7 @@ public class DummyTest {
             glClearDepth(1.0f);
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             input();
-
-            for (Object obj3D : importX) {
-                obj3D.draw(camera, projection);
-            }
+            player.draw(camera, projection);
 
             //Restore State
             glDisableVertexAttribArray(0);

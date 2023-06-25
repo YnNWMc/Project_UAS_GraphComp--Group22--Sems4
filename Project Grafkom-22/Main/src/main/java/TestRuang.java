@@ -21,6 +21,7 @@ public class TestRuang {
     private Window window = new Window(800, 800, "Dummy Main");
     Camera camera = new Camera();
     Projection projection = new Projection(window.getWidth(), window.getHeight());
+    Player player ;
 
     ArrayList<Object> Ruang = new ArrayList<Object>();
     List<ShaderProgram.ShaderModuleData> shaderModuleDataList = Arrays.asList(
@@ -51,6 +52,30 @@ public class TestRuang {
         camera.setPosition(0.0f, 6.0f, 40.0f);
         camera.setRotation((float) Math.toRadians(0.0f), (float) Math.toRadians(0.0f));
 
+        //Player
+        try{
+            m = ObjLoader.loadModelwFace(new File("Project Grafkom-22/Main/src/blenderAssets/Character.obj"), false);
+        }catch(FileNotFoundException e){
+            e.printStackTrace();
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+
+        player = new Player(
+                shaderModuleDataList,
+                new ArrayList<>(
+                ),
+                new Vector4f(1.0f, 0.0f, 1.0f, 1.0f),
+                0.0,
+                new ArrayList<>(List.of(0f, 0f, 0f)),
+                10.0f,
+                10f,
+                10f,
+                15, // Stack -->
+                30, // Sector --> Titik
+                m);
+        player.scaleObject(5f,5f,5f);
+        player.rotateObject(1f,0f,0f,0f);
         //Lantai
         Ruang.add(new Sphere(
                 shaderModuleDataList,
@@ -441,6 +466,19 @@ public class TestRuang {
 
     public void input() {
 
+        if(window.isKeyPressed(GLFW_KEY_W)){
+            player.move("f", player);
+
+        }
+        if(window.isKeyPressed(GLFW_KEY_S)){
+            player.move("b", player);
+        }
+        if(window.isKeyPressed(GLFW_KEY_A)){
+            player.move("l", player);
+        }
+        if(window.isKeyPressed(GLFW_KEY_D)){
+            player.move("r", player);
+        }
         if (window.isKeyPressed(GLFW_KEY_LEFT_ALT)) {
             camera.moveForward(0.12f);
         }
@@ -538,6 +576,8 @@ public class TestRuang {
             glClearDepth(1.0f);
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             input();
+
+            player.draw(camera, projection);
 
             for (Object obj3D : Ruang) {
                 obj3D.draw(camera, projection);
