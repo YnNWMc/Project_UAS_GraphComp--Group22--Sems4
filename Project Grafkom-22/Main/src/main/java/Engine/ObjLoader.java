@@ -2,7 +2,6 @@ package Engine;
 
 import org.joml.Vector2f;
 import org.joml.Vector3f;
-import org.joml.Vector4f;
 
 import java.io.*;
 
@@ -23,7 +22,7 @@ public class ObjLoader {
                 float x = Float.parseFloat(line.split("\\s+")[1]);
                 float y = Float.parseFloat(line.split("\\s+")[2]);
                 float z = Float.parseFloat(line.split("\\s+")[3]);
-                m.vertices.add(new Vector3f(x,y,z));
+                m.getVertices().add(new Vector3f(x,y,z));
             }
             // Vector Titik Normal (Shading/Lighting)
             else if(line.startsWith("vn "))
@@ -32,13 +31,13 @@ public class ObjLoader {
                 float x = Float.parseFloat(line.split("\\s+")[1]);
                 float y = Float.parseFloat(line.split("\\s+")[2]);
                 float z = Float.parseFloat(line.split("\\s+")[3]);
-                m.normals.add(new Vector3f(x,y,z));
+                m.getNormals().add(new Vector3f(x,y,z));
             }
             else if(line.startsWith("vt "))
             {
                 float x = Float.parseFloat(line.split("\\s+")[1]);
                 float y = Float.parseFloat(line.split("\\s+")[2]);
-                m.textures.add(new Vector2f(x, y));
+                m.getTextures().add(new Vector2f(x, y));
             }
             else if(line.startsWith("f "))
             {
@@ -80,18 +79,18 @@ public class ObjLoader {
                                     Float.parseFloat(line.split("\\s+")[2].split("/")[4]), // Y
                                     Float.parseFloat(line.split("\\s+")[3].split("/")[4])  // Z
                             );
-                    m.faces.add(new Face(vertexIndices, normalIndices, textureIndices));
+                    m.getFaces().add(new Face(vertexIndices, normalIndices, textureIndices));
                 }
 
                 else
-                    m.faces.add(new Face(vertexIndices, normalIndices));
+                    m.getFaces().add(new Face(vertexIndices, normalIndices));
 
             }
             else if(line.startsWith("l "))
             {
                 float x = Float.parseFloat(line.split("\\s+")[1]);
                 float y = Float.parseFloat(line.split("\\s+")[2]);
-                m.lineTextures.add(new Vector2f(x, y));
+                m.getLineTextures().add(new Vector2f(x, y));
             }
         }
         reader.close();

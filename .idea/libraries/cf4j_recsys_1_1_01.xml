@@ -1,7 +1,7 @@
 <component name="libraryTable">
-  <library name="PNGDecoder3">
+  <library name="cf4j-recsys-1.1.01">
     <CLASSES>
-      <root url="jar://$APPLICATION_HOME_DIR$/lib/PNGDecoder.jar!/" />
+      <root url="jar://$APPLICATION_HOME_DIR$/lib/cf4j-recsys-1.1.0.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

@@ -6,18 +6,15 @@ import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Vector;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL15.*;
 import static org.lwjgl.opengl.GL15.GL_STATIC_DRAW;
 import static org.lwjgl.opengl.GL20.glEnableVertexAttribArray;
 import static org.lwjgl.opengl.GL20.glVertexAttribPointer;
-import static org.lwjgl.opengl.GL30.glBindVertexArray;
 import static org.lwjgl.opengl.GL30.glGenVertexArrays;
 
 public class Sphere extends Circle3D {
@@ -33,7 +30,6 @@ public class Sphere extends Circle3D {
 
     int lampuTidur=0;
     int lampuAtas=1;
-
 
 
     public Sphere(List<ShaderModuleData> shaderModuleDataList, List<Vector3f> vertices, Vector4f color,
@@ -249,20 +245,20 @@ public class Sphere extends Circle3D {
 
     public void createImport() {
         normal = new ArrayList<>();
-        for (Face face : m.faces) {
-            Vector3f n1 = m.normals.get((int) face.normal.x - 1);
+        for (Face face : m.getFaces()) {
+            Vector3f n1 = m.getNormals().get((int) face.normal.x - 1);
             normal.add(n1);
-            Vector3f v1 = m.vertices.get((int) face.vertex.x - 1);
+            Vector3f v1 = m.getVertices().get((int) face.vertex.x - 1);
             vertices.add(v1);
 
-            Vector3f n2 = m.normals.get((int) face.normal.y - 1);
+            Vector3f n2 = m.getNormals().get((int) face.normal.y - 1);
             normal.add(n2);
-            Vector3f v2 = m.vertices.get((int) face.vertex.y - 1);
+            Vector3f v2 = m.getVertices().get((int) face.vertex.y - 1);
             vertices.add(v2);
 
-            Vector3f n3 = m.normals.get((int) face.normal.z - 1);
+            Vector3f n3 = m.getNormals().get((int) face.normal.z - 1);
             normal.add(n3);
-            Vector3f v3 = m.vertices.get((int) face.vertex.z - 1);
+            Vector3f v3 = m.getVertices().get((int) face.vertex.z - 1);
             vertices.add(v3);
         }
     }
@@ -270,20 +266,20 @@ public class Sphere extends Circle3D {
     public void createImport2() {
         //Perlu Fix
         normal = new ArrayList<>();
-        for (Face face : m.faces) {
-            Vector3f n1 = m.normals.get((int) face.normal.x - 1);
+        for (Face face : m.getFaces()) {
+            Vector3f n1 = m.getNormals().get((int) face.normal.x - 1);
             normal.add(n1);
-            Vector3f v1 = m.vertices.get((int) face.vertex.x - 1);
+            Vector3f v1 = m.getVertices().get((int) face.vertex.x - 1);
             vertices.add(v1);
 
-            Vector3f n2 = m.normals.get((int) face.normal.y - 1);
+            Vector3f n2 = m.getNormals().get((int) face.normal.y - 1);
             normal.add(n2);
-            Vector3f v2 = m.vertices.get((int) face.vertex.y - 1);
+            Vector3f v2 = m.getVertices().get((int) face.vertex.y - 1);
             vertices.add(v2);
 
-            Vector3f n3 = m.normals.get((int) face.normal.z - 1);
+            Vector3f n3 = m.getNormals().get((int) face.normal.z - 1);
             normal.add(n3);
-            Vector3f v3 = m.vertices.get((int) face.vertex.z - 1);
+            Vector3f v3 = m.getVertices().get((int) face.vertex.z - 1);
             vertices.add(v3);
         }
     }
@@ -667,7 +663,6 @@ public class Sphere extends Circle3D {
     }
 
 
-
     public float getrZ() {
         return rZ;
     }
@@ -711,13 +706,13 @@ public class Sphere extends Circle3D {
     public void calculateBoundingBox() {
         if(this.m != null){
             // Initialize min and max coordinates with the first vertex
-            Vector3f firstVertex = m.vertices.get(0);
+            Vector3f firstVertex = m.getVertices().get(0);
             minX = maxX = firstVertex.x;
             minY = maxY = firstVertex.y;
             minZ = maxZ = firstVertex.z;
 
             // Find the min and max values for each coordinate
-            for (Vector3f vertex : m.vertices) {
+            for (Vector3f vertex : m.getVertices()) {
                 if (vertex.x < minX) minX = vertex.x;
                 if (vertex.x > maxX) maxX = vertex.x;
 
@@ -794,25 +789,25 @@ public class Sphere extends Circle3D {
         return Math.min(Math.max(value, min), max);
     }
 
-    public boolean detectCollision(Vector3D p, RawModel o, double thresh) {
-        List<Vertex> vertices = o.getVertices();
-        List<Integer> indicies = o.getIndices();
+    public boolean detectCollision(Vector3D p, Model o, double thresh) {
+        List<Vector3f> vertices = o.getVertices();
+        List<Vector3f> indicies = o.getIndices();
 
         for (int i = 0; i < indicies.size()/3; i++) {
             Vector3D a = new Vector3D(
-                    vertices.get(indicies.get(i)).getPosition().x + position.x,
-                    vertices.get(indicies.get(i)).getPosition().y + position.y,
-                    vertices.get(indicies.get(i)).getPosition().z + position.z
+                    vertices.get(i).x + position.x,
+                    vertices.get(i).y + position.y,
+                    vertices.get(i).z + position.z
             );
             Vector3D b = new Vector3D(
-                    vertices.get(indicies.get(i+1)).getPosition().x + position.x,
-                    vertices.get(indicies.get(i+1)).getPosition().y + position.y,
-                    vertices.get(indicies.get(i+1)).getPosition().z + position.z
+                    vertices.get(i+1).x + position.x,
+                    vertices.get(i+1).y + position.y,
+                    vertices.get(i+1).z + position.z
             );
             Vector3D c = new Vector3D(
-                    vertices.get(indicies.get(i+2)).getPosition().x + position.x,
-                    vertices.get(indicies.get(i+2)).getPosition().y + position.y,
-                    vertices.get(indicies.get(i+2)).getPosition().z + position.z
+                    vertices.get(i+2).x + position.x,
+                    vertices.get(i+2).y + position.y,
+                    vertices.get(i+2).z + position.z
             );
 
 
