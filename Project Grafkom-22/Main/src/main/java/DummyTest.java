@@ -185,10 +185,10 @@ public class DummyTest {
             glClearDepth(1.0f);
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             input();
-            player.draw(camera, projection,true);
+            player.draw(camera, projection,true,true);
 
             for (Object obj3D : Ruang) {
-                obj3D.draw(camera, projection,true);
+                obj3D.draw(camera, projection,true,true);
             }
 
             skyBox.draw(camera,projection);

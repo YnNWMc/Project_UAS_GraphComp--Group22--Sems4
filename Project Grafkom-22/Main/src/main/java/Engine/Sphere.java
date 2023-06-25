@@ -33,6 +33,7 @@ public class Sphere extends Circle3D {
     int lampuAtas=1;
 
 
+
     public Sphere(List<ShaderModuleData> shaderModuleDataList, List<Vector3f> vertices, Vector4f color,
                   double r, ArrayList<Float> centerPoint, float rX, float rY, float rZ, int stackCount, int sectorCount, Model m) {
         super(shaderModuleDataList, vertices, color, centerPoint, rX, rY);
@@ -108,7 +109,7 @@ public class Sphere extends Circle3D {
 
     }
 
-    public void drawSetup(Camera camera, Projection projection,boolean cek) {
+    public void drawSetup(Camera camera, Projection projection,boolean cek,boolean flashLight) {
         //drawSetup untuk Shading
         super.drawSetup(camera,projection);
         //Bind NBO
@@ -199,17 +200,31 @@ public class Sphere extends Circle3D {
 
 
 //      SpotLight atau senter
-        uniformsMap.setUniform("spotLight.position", camera.getPosition());
-        uniformsMap.setUniform("spotLight.direction", camera.getDirection());
-        uniformsMap.setUniform("spotLight.ambient", new Vector3f(1f,1f, 1f));
-        uniformsMap.setUniform("spotLight.diffuse", new Vector3f(1.0f,1.0f, 1.0f));
-        uniformsMap.setUniform("spotLight.specular", new Vector3f(1.0f,1.0f, 1.0f));
-        uniformsMap.setUniform("spotLight.constant", (1f));
-        uniformsMap.setUniform("spotLight.linear", (0.07f));
-        uniformsMap.setUniform("spotLight.quadratic", (0.017f));
-        uniformsMap.setUniform("spotLight.cutOff", (float)(Math.cos(Math.toRadians(70))));
-        uniformsMap.setUniform("spotLight.outerCutOff", (float)(Math.cos(Math.toRadians(50))));
+        if(flashLight) {
+            uniformsMap.setUniform("spotLight.position", camera.getPosition());
+            uniformsMap.setUniform("spotLight.direction", camera.getDirection());
+            uniformsMap.setUniform("spotLight.ambient", new Vector3f(1f, 1f, 1f));
+            uniformsMap.setUniform("spotLight.diffuse", new Vector3f(1.0f, 1.0f, 1.0f));
+            uniformsMap.setUniform("spotLight.specular", new Vector3f(1.0f, 1.0f, 1.0f));
+            uniformsMap.setUniform("spotLight.constant", (1f));
+            uniformsMap.setUniform("spotLight.linear", (0.07f));
+            uniformsMap.setUniform("spotLight.quadratic", (0.017f));
+            uniformsMap.setUniform("spotLight.cutOff", (float) (Math.cos(Math.toRadians(70))));
+            uniformsMap.setUniform("spotLight.outerCutOff", (float) (Math.cos(Math.toRadians(50))));
 
+        }
+        else{
+            uniformsMap.setUniform("spotLight.position", camera.getPosition());
+            uniformsMap.setUniform("spotLight.direction", camera.getDirection());
+            uniformsMap.setUniform("spotLight.ambient", new Vector3f(0f, 0f, 0f));
+            uniformsMap.setUniform("spotLight.diffuse", new Vector3f(0f, 0f, 0f));
+            uniformsMap.setUniform("spotLight.specular", new Vector3f(0f, 0f, 0f));
+            uniformsMap.setUniform("spotLight.constant", (1f));
+            uniformsMap.setUniform("spotLight.linear", (0.0f));
+            uniformsMap.setUniform("spotLight.quadratic", (0.0f));
+            uniformsMap.setUniform("spotLight.cutOff", (float) (Math.cos(Math.toRadians(0))));
+            uniformsMap.setUniform("spotLight.outerCutOff", (float) (Math.cos(Math.toRadians(0))));
+        }
         uniformsMap.setUniform("viewPos", camera.getPosition());
     }
 
@@ -226,14 +241,14 @@ public class Sphere extends Circle3D {
     }
 
 
-    public void draw(Camera camera, Projection projection,boolean cek){
-        drawSetup(camera,projection,cek);
+    public void draw(Camera camera, Projection projection,boolean cek,boolean flashLight){
+        drawSetup(camera,projection,cek,flashLight);
         // Draw vertices
         glLineWidth(1);
         glPointSize(1);
         glDrawArrays(GL_TRIANGLES, 0, vertices.size());
         for(Object child : getChildObject()){
-            child.draw(camera,projection,cek);
+            child.draw(camera,projection,cek,flashLight);
         }
     }
 
