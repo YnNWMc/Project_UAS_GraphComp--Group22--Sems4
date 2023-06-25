@@ -111,7 +111,7 @@ public class Object extends ShaderProgram implements Collideable{
         glDrawArrays(GL_TRIANGLES,0,vertices.size());
     }
 
-    public void drawSetup(Camera camera, Projection projection,boolean lampu,boolean flashLight ){
+    public void drawSetup(Camera camera, Projection projection){
         bind();
         uniformsMap.setUniform(
                 "uni_color", color);
@@ -127,28 +127,38 @@ public class Object extends ShaderProgram implements Collideable{
         glBindBuffer(GL_ARRAY_BUFFER, vbo);
         glVertexAttribPointer(0,3, GL_FLOAT, false, 0,0);
     }
-
-    public void draw(Camera camera, Projection projection,boolean lampu,boolean flashLight){
-        drawSetup(camera,projection,lampu,flashLight);
+    public void draw(Camera camera, Projection projection){
+        drawSetup(camera,projection);
         // Draw vertices
         glLineWidth(10);
         glPointSize(0);
-        glDrawArrays(GL_TRIANGLES, 0, vertices.size());
+        glDrawArrays(GL_POLYGON, 0, vertices.size());
+        for(Object child : getChildObject()){
+            child.draw(camera,projection);
+        }
+    }
+
+    public void draw(Camera camera, Projection projection,boolean lampu,boolean flashLight){
+        drawSetup(camera,projection);
+        // Draw vertices
+        glLineWidth(10);
+        glPointSize(0);
+        glDrawArrays(GL_POLYGON, 0, vertices.size());
         for(Object child : getChildObject()){
             child.draw(camera,projection,lampu,flashLight);
         }
     }
 
-//    public void drawLine(Camera camera, Projection projection){
-//        drawSetup(camera,projection);
-//        // Draw vertices
-//        glLineWidth(5);
-//        glPointSize(0);
-//        glDrawArrays(GL_LINE_STRIP, 0, vertices.size());
-//        for(Object child : getChildObject()){
-//            child.drawLine(camera,projection);
-//        }
-//    }
+    public void drawLine(Camera camera, Projection projection){
+        drawSetup(camera,projection);
+        // Draw vertices
+        glLineWidth(5);
+        glPointSize(0);
+        glDrawArrays(GL_LINE_STRIP, 0, vertices.size());
+        for(Object child : getChildObject()){
+            child.drawLine(camera,projection);
+        }
+    }
     public void addVertices(Vector3f newVector){
         vertices.add(newVector);
         setupVAOVBO();

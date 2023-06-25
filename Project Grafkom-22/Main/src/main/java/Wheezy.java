@@ -672,9 +672,9 @@ public class Wheezy {
             glClearColor(1f, 1f, 1f, 0.0f); // RapidTables.com (RGB color code chart)
             GL.createCapabilities();
             input();
-//            for (Wheezy_Object obj3D : bodyPart) {
-//                obj3D.draw(camera,projection);
-//            }
+            for (Wheezy_Object obj3D : bodyPart) {
+                obj3D.draw(camera,projection);
+            }
             //Restore State
             glDisableVertexAttribArray(0);
             // Pull for window events

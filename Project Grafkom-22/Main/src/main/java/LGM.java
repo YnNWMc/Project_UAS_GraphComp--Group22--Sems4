@@ -1253,12 +1253,12 @@ public class LGM {
             input();
             LGMO.get(0).updateCenterPoint(true);
 
-//            for (LGM_Object obj3D : LGMO) {
-//                obj3D.draw(camera,projection);
-//            }
-//            for (Object obj3D : Background) {
-//                obj3D.draw(camera,projection);
-//            }
+            for (LGM_Object obj3D : LGMO) {
+                obj3D.draw(camera,projection);
+            }
+            for (Object obj3D : Background) {
+                obj3D.draw(camera,projection);
+            }
             System.out.println("X"+camera.getPosition().get(0));
             System.out.println("Y"+camera.getPosition().get(1));
             System.out.println("Z"+camera.getPosition().get(2));
