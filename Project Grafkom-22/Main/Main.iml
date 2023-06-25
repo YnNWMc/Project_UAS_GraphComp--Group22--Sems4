@@ -92,5 +92,6 @@
     <orderEntry type="library" name="PNGDecoder1" level="project" />
     <orderEntry type="library" name="PNGDecoder2" level="project" />
     <orderEntry type="library" name="PNGDecoder3" level="project" />
+    <orderEntry type="library" name="PNGDecoder4" level="project" />
   </component>
 </module>

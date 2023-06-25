@@ -1012,9 +1012,9 @@ public class BabiCeleng {
             input();
 
 //            Babi.get(0).getChildObject().get(0).getChildObject().get(5).drawLine(camera,projection);
-            for (Object obj3D : Babi) {
-                obj3D.draw(camera, projection);
-            }
+//            for (Object obj3D : Babi) {
+//                obj3D.draw(camera, projection);
+//            }
 
 
             //Restore State

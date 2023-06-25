@@ -360,16 +360,16 @@ public class LGM_Object extends Circle3D {
     }
 
 
-    public void draw(Camera camera, Projection projection){
-        drawSetup(camera,projection);
-        // Draw vertices
-        glLineWidth(1);
-        glPointSize(1);
-        glDrawArrays(GL_POLYGON, 0, vertices.size());
-        for(Object child : getChildObject()){
-            child.draw(camera,projection);
-        }
-    }
+//    public void draw(Camera camera, Projection projection){
+//        drawSetup(camera,projection);
+//        // Draw vertices
+//        glLineWidth(1);
+//        glPointSize(1);
+//        glDrawArrays(GL_POLYGON, 0, vertices.size());
+//        for(Object child : getChildObject()){
+//            child.draw(camera,projection);
+//        }
+//    }
 
     //faktorial
     public int factorial(int a){
