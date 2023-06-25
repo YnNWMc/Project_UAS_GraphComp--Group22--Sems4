@@ -783,7 +783,6 @@ public class TestRuang {
             fromCCTV = true;
         }
 
-
         else{
             if(fromCCTV) {
                 //camera nanti mengikuti posisi player
@@ -838,11 +837,13 @@ public class TestRuang {
 //            player.translateObject(tempCenterPointsd.x * 1, tempCenterPointsd.y * 1, tempCenterPointsd.z * 1);
             player.translateObject(0.0f,0.0f, player.getCurrSpeed());
             camera.moveForward(player.getCurrSpeed());
+            tempCam = new Vector3f(camera.getPositionX(), camera.getPositionY(), camera.getPositionZ());
 
         }
         if(window.isKeyPressed(GLFW_KEY_S)){
             player.translateObject(0.0f,0.0f,-player.getCurrSpeed());
             camera.moveBackwards(player.getCurrSpeed());
+            tempCam = new Vector3f(camera.getPositionX(), camera.getPositionY(), camera.getPositionZ());
 
         }
         if(window.isKeyPressed(GLFW_KEY_A)){
@@ -857,6 +858,7 @@ public class TestRuang {
 //            if(countLeft>=180)
             player.translateObject(player.getCurrSpeed(),0.0f,0.0f);
             camera.moveLeft(player.getCurrSpeed());
+            tempCam = new Vector3f(camera.getPositionX(), camera.getPositionY(), camera.getPositionZ());
 
         }
         if(window.isKeyPressed(GLFW_KEY_D)){
@@ -871,6 +873,8 @@ public class TestRuang {
 //            if(countLeft<=-180)
             player.translateObject(-player.getCurrSpeed(),0.0f,0.0f);
             camera.moveRight(player.getCurrSpeed());
+            tempCam = new Vector3f(camera.getPositionX(), camera.getPositionY(), camera.getPositionZ());
+
         }
         //Kontrol Player
         if (window.isKeyPressed(GLFW_KEY_LEFT_CONTROL)) {
@@ -898,11 +902,13 @@ public class TestRuang {
         if (window.getMouseInput().isLeftButtonPressed()){
             Vector2f displayVec = window.getMouseInput().getDisplVec();
             camera.addRotation((float)Math.toRadians(displayVec.x * 0.1f), (float) Math.toRadians(displayVec.y * 0.1f));
+            tempRotate = new Vector2f (camera.getRotationX(), camera.getRotationY());
         }
 
         if (window.getMouseInput().getScroll().y != 0){
             projection.setFOV(projection.getFOV()-(window.getMouseInput().getScroll().y*0.01f));
             window.getMouseInput().setScroll(new Vector2f());
+
         }
 
         if(window.isKeyPressed(GLFW_KEY_Z)){

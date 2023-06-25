@@ -40,6 +40,13 @@ public class Camera {
         return position.z;
     }
 
+    public float getRotationX(){
+        return rotation.x;
+    }
+    public float getRotationY(){
+        return rotation.y;
+    }
+
 
     public Matrix4f getViewMatrix() {
         return viewMatrix;
