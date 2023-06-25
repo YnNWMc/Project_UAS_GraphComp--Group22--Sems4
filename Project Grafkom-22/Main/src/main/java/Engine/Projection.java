@@ -4,6 +4,8 @@ import org.joml.Matrix4f;
 
 public class Projection {
 
+    private float baseProj = 0.5235988f;
+
     public float getFOV() {
         return FOV;
     }
@@ -33,5 +35,13 @@ public class Projection {
         this.width = width;
         this.height = height;
         projMatrix.setPerspective(FOV, (float) width / height, Z_NEAR, Z_FAR);
+    }
+
+    public float getBaseProj() {
+        return baseProj;
+    }
+
+    public void setBaseProj(float baseProj) {
+        this.baseProj = baseProj;
     }
 }

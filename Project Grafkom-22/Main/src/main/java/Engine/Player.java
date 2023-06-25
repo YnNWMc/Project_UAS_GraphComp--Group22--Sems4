@@ -10,7 +10,7 @@ public class Player extends Sphere{
     private float moveSpeed = 1;
     private float rotateSpeed = 1f;
     private int characterDir = 180;
-    private float currSpeed = 0.5f;
+    private float currSpeed = 0.05f;
     private float currRotateSpeed = 0;
     public Player(List<ShaderModuleData> shaderModuleDataList, List<Vector3f> vertices, Vector4f color, double r, ArrayList<Float> centerPoint, float rX, float rY, float rZ, int stackCount, int sectorCount, Model m) {
         super(shaderModuleDataList, vertices, color, r, centerPoint, rX, rY, rZ, stackCount, sectorCount, m);
@@ -94,6 +94,46 @@ public class Player extends Sphere{
             }
             p.translateObject(-currSpeed/2,0f,0f);
         }
+    }
+
+    public float getMoveSpeed() {
+        return moveSpeed;
+    }
+
+    public void setMoveSpeed(float moveSpeed) {
+        this.moveSpeed = moveSpeed;
+    }
+
+    public float getRotateSpeed() {
+        return rotateSpeed;
+    }
+
+    public void setRotateSpeed(float rotateSpeed) {
+        this.rotateSpeed = rotateSpeed;
+    }
+
+    public int getCharacterDir() {
+        return characterDir;
+    }
+
+    public void setCharacterDir(int characterDir) {
+        this.characterDir = characterDir;
+    }
+
+    public float getCurrSpeed() {
+        return currSpeed;
+    }
+
+    public void setCurrSpeed(float currSpeed) {
+        this.currSpeed = currSpeed;
+    }
+
+    public float getCurrRotateSpeed() {
+        return currRotateSpeed;
+    }
+
+    public void setCurrRotateSpeed(float currRotateSpeed) {
+        this.currRotateSpeed = currRotateSpeed;
     }
 }
 

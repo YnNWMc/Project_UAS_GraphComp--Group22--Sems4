@@ -48,11 +48,12 @@ public class TestRuang {
             glDepthFunc(GL_LEQUAL);
             glDepthRange(0.0f, 1.0f);
 
-            camera.setPosition(0.0f, 5.0f, 0.0f);
-            camera.setRotation((float) Math.toRadians(0.0f), (float) Math.toRadians(0.0f));
+            camera.setPosition(0.0f, 2.3f, 0.5f);
+
+            camera.setRotation((float) Math.toRadians(0.0f), (float) Math.toRadians(180.0f));
 
             try{
-                m = ObjLoader.loadModelwFace(new File("Project Grafkom-22/Main/src/blenderAssets/Character.obj"), false);
+                m = ObjLoader.loadModelwFace(new File("Project Grafkom-22/Main/src/blenderAssets/mainCharacter.obj"), false);
             }catch(FileNotFoundException e){
                 e.printStackTrace();
             }catch (IOException e){
@@ -63,7 +64,7 @@ public class TestRuang {
                     shaderModuleDataList,
                     new ArrayList<>(
                     ),
-                    new Vector4f(1.0f, 0.0f, 1.0f, 1.0f),
+                    new Vector4f(0f/255, 26f/255, 255f/255, 1.0f/255),
                     0.0,
                     new ArrayList<>(List.of(0f, 0f, 0f)),
                     10.0f,
@@ -72,7 +73,7 @@ public class TestRuang {
                     15, // Stack -->
                     30, // Sector --> Titik
                     m);
-            player.scaleObject(5f,5f,5f);
+            player.scaleObject(2.5f,2.5f,2.5f);
             player.rotateObject(1f,0f,0f,0f);
 
 
@@ -723,23 +724,73 @@ public class TestRuang {
             Ruang.get(0).getChildObject().get(12).rotateObject((float)Math.toRadians(30.0f), 0.0f, -1.0f, 0.0f);
             Ruang.get(0).getChildObject().get(12).translateObject(9.0f,0.1f,-9.0f);
 
+            //tembok depan
+            Ruang.get(0).getChildObject().get(0).getChildObject().add(new Sphere(
+                    shaderModuleDataList,
+                    new ArrayList<>(List.of(
+                    )
+                    ),
+                    new Vector4f(178f/255, 169f/255, 124f/255, 1.0f/255),0.0,
+                    new ArrayList<>(List.of(0f, 0f, 0f)),
+                    20.0f,
+                    13.0f,
+                    1.0f,
+                    15, // Stack -->
+                    30, // Sector --> Titik
+                    0));
+
+            Ruang.get(0).getChildObject().get(0).getChildObject().get(11).translateObject(0.0f,6.5f,18.5f);
         }
 
 
-    boolean cam1 = false;
+    float maxCam = 180.0f;
+    float count = 0;
+    boolean hold= false;
+    boolean fromCCTV = false;
+
+    Vector3f tempCam;
+
     public void input() {
         //( 9.949E+0  1.275E+1 -9.942E+0)
+//        ( 9.994E+0  1.279E+1  1.798E+1)
         System.out.println(camera.getPosition());
-        //CCTV 1
-        if (window.isKeyPressed(GLFW_KEY_2)) {
-            camera.setPosition(9.949f,  12.8f ,-9.942f);
-            cam1 = true;
+
+        if (window.isKeyPressed(GLFW_KEY_2) || window.isKeyPressed(GLFW_KEY_3)) {
+            hold=true;
         }
-        if(cam1){
-            camera.addRotation((float)Math.toRadians(90* 0.1f), (float) Math.toRadians(90 * 0.1f));
+        else{
+            hold = false;
+        }
+        //CCTV 1 -- HOLD KEY 2
+        if(hold && window.isKeyPressed(GLFW_KEY_2)){
+            camera.setPosition(9.949f, 12.7f, -9.942f);
+            camera.setRotation((float) Math.toRadians(30), (float) Math.toRadians(220));
+            projection.setFOV(1.4f);
+            fromCCTV = true;
+        }
+        //CCTV 2 -- HOLD KEY 3
+        else if(hold && window.isKeyPressed(GLFW_KEY_3)) {
+            camera.setPosition(9.949f , 12.7f , 16.942f);
+            camera.setRotation((float) Math.toRadians(30), (float) Math.toRadians(-50));
+            projection.setFOV(1.4f);
+            fromCCTV = true;
         }
 
+        else{
+            if(fromCCTV) {
+                //camera nanti mengikuti posisi player
+                camera.setPosition(0f, 5f, 0f);
+                camera.setRotation((float) Math.toRadians(0), (float) Math.toRadians(0));
+                fromCCTV = false;
+            }
+        }
+
+
         if (window.isKeyPressed(GLFW_KEY_1)) {
+            if(count<=maxCam) {
+                camera.addRotation((float) Math.toRadians(0.0), (float) Math.toRadians(0.2));
+                count+=0.2;
+            }
             //NANTI SESUAIIN SAMA KARAKTER BUAT BALIK KE KAMERANYA
             //camera.setPosition(9.949f,  1.275f ,-9.942f);
         }
@@ -747,9 +798,11 @@ public class TestRuang {
         //Kontrol Player
         if(window.isKeyPressed(GLFW_KEY_W)){
             player.move("f", player);
+            camera.moveForward(player.getCurrSpeed());
         }
         if(window.isKeyPressed(GLFW_KEY_S)){
             player.move("b", player);
+            camera.moveBackwards(player.getCurrSpeed());
         }
         if(window.isKeyPressed(GLFW_KEY_A)){
             player.move("l", player);
