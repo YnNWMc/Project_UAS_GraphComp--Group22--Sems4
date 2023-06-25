@@ -22,6 +22,11 @@ public class TestRuang {
         Camera camera = new Camera();
         Projection projection = new Projection(window.getWidth(), window.getHeight());
         Player player ;
+        boolean gelap = false;
+        int counterLampu =0;
+        boolean flashLight = false;
+        int counterFlashLight =0;
+
         ArrayList<Object> Ruang = new ArrayList<Object>();
         List<ShaderProgram.ShaderModuleData> shaderModuleDataList = Arrays.asList(
                 new ShaderProgram.ShaderModuleData(
@@ -909,33 +914,35 @@ public class TestRuang {
         {
             camera.addRotation((float) Math.toRadians(-1f), (float) Math.toRadians(0f));
         }
-        if (window.isKeyPressed(GLFW_KEY_F)) {
-            System.out.println("F");
-            Ruang.get(0).rotateObject((float) Math.toRadians(1.0f), 1.0f, 0.0f, 0.0f);
 
-
-        }
-        //rotasi diri sendiir
-        if (window.isKeyPressed(GLFW_KEY_R)) {
-            Ruang.get(0).rotateObject((float) Math.toRadians(1.0f), 0.0f, 1.0f, 0.0f);
-
-            // MOVE CAMERA
-        }
-        if (window.isKeyPressed(GLFW_KEY_G)) {
-            System.out.println("F");
-            Ruang.get(0).rotateObject((float) Math.toRadians(-1.0f), 1.0f, 0.0f, 0.0f);
-
-
-        }
-        //rotasi diri sendiir
-        if (window.isKeyPressed(GLFW_KEY_T)) {
-            Ruang.get(0).rotateObject((float) Math.toRadians(-1.0f), 0.0f, 1.0f, 0.0f);
-
-            // MOVE CAMERA
-        }
 //        camera.printPosition();
-    }
 
+        if(window.isKeyPressed(GLFW_KEY_P)){
+            if (counterLampu == 60) {
+                if (!gelap) {
+                    gelap = true;
+                } else gelap = false;
+                counterLampu=0;
+            }
+            else {
+                counterLampu+= 1;
+            }
+        }
+
+        if(window.getMouseInput().isRightButtonPressed()){
+            if(counterFlashLight == 60){
+                if (!flashLight) {
+                    flashLight = true;
+                } else flashLight = false;
+                counterFlashLight=0;
+            }
+            else {
+                counterFlashLight+= 1;
+            }
+        }
+
+
+    }
 
 
     public void loop() {
@@ -947,10 +954,10 @@ public class TestRuang {
             glClearDepth(1.0f);
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             input();
-            player.draw(camera, projection);
+            player.draw(camera, projection,gelap,flashLight);
 
             for (Object obj3D : Ruang) {
-                obj3D.draw(camera, projection);
+                obj3D.draw(camera, projection,gelap,flashLight);
             }
 //            System.out.println("Cam X"+camera.getPosition().get(0));
 //            System.out.println("Cam Y"+camera.getPosition().get(1));
