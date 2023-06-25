@@ -2,12 +2,12 @@ package Engine;
 
 public class BoundingBox {
 
-    private float width, height, length;
+    private float width, height, depth;
 
-    public BoundingBox(float width, float height, float length) {
+    public BoundingBox(float width, float height, float depth) {
         this.width = width;
         this.height = height;
-        this.length = length;
+        this.depth = depth;
     }
 
     public float getWidth() {
@@ -26,11 +26,11 @@ public class BoundingBox {
         this.height = height;
     }
 
-    public float getLength() {
-        return length;
+    public float getDepth() {
+        return depth;
     }
 
-    public void setLength(float length) {
-        this.length = length;
+    public void setDepth(float depth) {
+        this.depth = depth;
     }
 }
