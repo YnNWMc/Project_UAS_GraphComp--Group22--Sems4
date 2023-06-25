@@ -351,16 +351,16 @@ public class Wheezy_Object extends Circle3D{
         }
         vertices = temp;
     }*/
-//    public void draw(Camera camera, Projection projection){
-//        drawSetup(camera,projection);
-//        // Draw vertices
-//        glLineWidth(1);
-//        glPointSize(1);
-//        glDrawArrays(GL_POLYGON, 0, vertices.size());
-//        for(Object child : getChildObject()){
-//            child.draw(camera,projection);
-//        }
-//    }
+    public void draw(Camera camera, Projection projection){
+        drawSetup(camera,projection);
+        // Draw vertices
+        glLineWidth(1);
+        glPointSize(1);
+        glDrawArrays(GL_POLYGON, 0, vertices.size());
+        for(Object child : getChildObject()){
+            child.draw(camera,projection);
+        }
+    }
 
 
 
