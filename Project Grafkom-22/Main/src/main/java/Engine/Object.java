@@ -17,7 +17,7 @@ import static org.lwjgl.opengl.GL30.glBindVertexArray;
 import static org.lwjgl.opengl.GL30.glGenVertexArrays;
 
 
-public class Object extends ShaderProgram {
+public class Object extends ShaderProgram implements Collideable{
     List<Vector3f> vertices;
     List<Vector3f>verticesColor;
     int vao, vbo;
@@ -217,7 +217,11 @@ public class Object extends ShaderProgram {
     public Matrix4f getModel(){
         return model;
     }
+    public boolean Collide(Player p){
 
+
+        return false;
+    }
 
 }
 

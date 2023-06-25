@@ -582,6 +582,22 @@ public class Sphere extends Circle3D{
         translateObject(tempx, tempy, tempz);
     }
 
+    public boolean Collide(Player p){
+
+
+        return false;
+    }
+
+
+    public float getrZ() {
+        return rZ;
+    }
+
+    public void setrZ(float rZ) {
+        this.rZ = rZ;
+    }
+
+}
 //    public void rotateObjectOnPoint(Float degree, Float x,Float y,Float z, Float tempx, Float tempy, Float tempz){
 //        translateObject(-tempx,-tempy,-tempz);
 //        model = new Matrix4f().rotate(degree,x,y,z).mul(new Matrix4f(model));
@@ -598,13 +614,3 @@ public class Sphere extends Circle3D{
 //
 //        translateObject(tempx,tempy,tempz);
 //    }
-
-    public float getrZ() {
-        return rZ;
-    }
-
-    public void setrZ(float rZ) {
-        this.rZ = rZ;
-    }
-
-}
