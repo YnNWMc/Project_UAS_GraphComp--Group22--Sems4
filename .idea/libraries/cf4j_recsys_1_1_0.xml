@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="cf4j-recsys-1.1.0">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../cf4j-recsys-1.1.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../commons-math3-3.6.1.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

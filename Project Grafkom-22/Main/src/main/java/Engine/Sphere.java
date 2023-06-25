@@ -1,6 +1,7 @@
 package Engine;
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 
+import org.apache.commons.math3.geometry.spherical.twod.Vertex;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
@@ -813,7 +814,6 @@ public class Sphere extends Circle3D {
                     vertices.get(indicies.get(i+2)).getPosition().y + position.y,
                     vertices.get(indicies.get(i+2)).getPosition().z + position.z
             );
-
 
 
             if (sdfTriangle(p, a, b, c) < thresh) {
