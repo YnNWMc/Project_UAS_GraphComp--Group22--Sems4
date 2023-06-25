@@ -22,7 +22,7 @@ public class DummyTest {
     Camera camera = new Camera();
     Projection projection = new Projection(window.getWidth(), window.getHeight());
     ArrayList<Sphere> Ruang = new ArrayList<Sphere>();
-
+    SkyBox skyBox ;
     Player player ;
     List<ShaderProgram.ShaderModuleData> shaderModuleDataList = Arrays.asList(
             new ShaderProgram.ShaderModuleData(
@@ -52,6 +52,7 @@ public class DummyTest {
         camera.setPosition(-0.12f, 4.5799975f, 22.460037f);
         camera.setRotation((float) Math.toRadians(0.0f), (float) Math.toRadians(0.0f));
 
+        skyBox = new SkyBox();
         try{
             m = ObjLoader.loadModelwFace(new File("Project Grafkom-22/Main/src/blenderAssets/Character.obj"), false);
         }catch(FileNotFoundException e){
@@ -190,6 +191,7 @@ public class DummyTest {
                 obj3D.draw(camera, projection);
             }
 
+            skyBox.draw(camera,projection);
             System.out.println(player.CheckCollide(Ruang.get(0)));
 
             //Restore State

@@ -37,7 +37,7 @@ public class Sphere extends Circle3D {
         this.m = m;
         createImport();
         calculateBoundingBox();
-        boundingBox = new BoundingBox(getWidth(),getHeight(),getLength());
+        boundingBox = new BoundingBox(getWidth(),getHeight(),getDepth());
         setupVAOVBO();
     }
 
@@ -77,7 +77,7 @@ public class Sphere extends Circle3D {
         }
 
         calculateBoundingBox();
-        boundingBox = new BoundingBox(getWidth(),getHeight(),getLength());
+        boundingBox = new BoundingBox(getWidth(),getHeight(),getDepth());
         setupVAOVBO();
     }
 
@@ -598,32 +598,31 @@ public class Sphere extends Circle3D {
         this.rZ = rZ;
     }
 
-
     public boolean CheckCollide(Sphere obj) {
         // Calculate the half widths, half heights, and half lengths of the bounding boxes
         float halfWidth1 = boundingBox.getWidth() / 2;
         float halfHeight1 = boundingBox.getHeight() / 2;
-        float halfLength1 = boundingBox.getLength() / 2;
+        float halfDepth1 = boundingBox.getDepth() / 2;
 
         float halfWidth2 = obj.boundingBox.getWidth() / 2;
         float halfHeight2 = obj.boundingBox.getHeight() / 2;
-        float halfLength2 = obj.boundingBox.getLength() / 2;
+        float halfDepth2 = obj.boundingBox.getDepth() / 2;
 
         // Calculate the centers of the bounding boxes
         float center1X = getMinX() + halfWidth1;
         float center1Y = getMinY() + halfHeight1;
-        float center1Z = getMinZ() + halfLength1;
+        float center1Z = getMinZ() + halfDepth1;
 
         float center2X = obj.getMinX() + halfWidth2;
         float center2Y = obj.getMinY() + halfHeight2;
-        float center2Z = obj.getMinZ() + halfLength2;
+        float center2Z = obj.getMinZ() + halfDepth2;
 
         // Calculate the distances between the centers of the bounding boxes
         float distanceX = Math.abs(center1X - center2X);
         float distanceY = Math.abs(center1Y - center2Y);
         float distanceZ = Math.abs(center1Z - center2Z);
         // Check for overlap in each dimension
-        if (distanceX <= halfWidth1 + halfWidth2 && distanceY <= halfHeight1 + halfHeight2 && distanceZ <= halfLength1 + halfLength2) {
+        if (distanceX <= halfWidth1 + halfWidth2 && distanceY <= halfHeight1 + halfHeight2 && distanceZ <= halfDepth1 + halfDepth2) {
             // Collision detected
             return true;
         }
@@ -690,7 +689,7 @@ public class Sphere extends Circle3D {
         return maxY - minY;
     }
 
-    public float getLength() {
+    public float getDepth() {
         return maxZ - minZ;
     }
 
