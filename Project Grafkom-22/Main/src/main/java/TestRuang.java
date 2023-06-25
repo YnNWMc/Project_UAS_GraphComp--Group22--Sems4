@@ -21,7 +21,7 @@ public class TestRuang {
         private Window window = new Window(800, 800, "Dummy Main");
         Camera camera = new Camera();
         Projection projection = new Projection(window.getWidth(), window.getHeight());
-
+        Player player ;
         ArrayList<Object> Ruang = new ArrayList<Object>();
         List<ShaderProgram.ShaderModuleData> shaderModuleDataList = Arrays.asList(
                 new ShaderProgram.ShaderModuleData(
@@ -50,6 +50,30 @@ public class TestRuang {
 
             camera.setPosition(0.0f, 5.0f, 0.0f);
             camera.setRotation((float) Math.toRadians(0.0f), (float) Math.toRadians(0.0f));
+
+            try{
+                m = ObjLoader.loadModelwFace(new File("Project Grafkom-22/Main/src/blenderAssets/Character.obj"), false);
+            }catch(FileNotFoundException e){
+                e.printStackTrace();
+            }catch (IOException e){
+                e.printStackTrace();
+            }
+
+            player = new Player(
+                    shaderModuleDataList,
+                    new ArrayList<>(
+                    ),
+                    new Vector4f(1.0f, 0.0f, 1.0f, 1.0f),
+                    0.0,
+                    new ArrayList<>(List.of(0f, 0f, 0f)),
+                    10.0f,
+                    10f,
+                    10f,
+                    15, // Stack -->
+                    30, // Sector --> Titik
+                    m);
+            player.scaleObject(5f,5f,5f);
+            player.rotateObject(1f,0f,0f,0f);
 
 
             //Lantai
@@ -720,11 +744,25 @@ public class TestRuang {
             //camera.setPosition(9.949f,  1.275f ,-9.942f);
         }
 
-        if (window.isKeyPressed(GLFW_KEY_W)) {
+        //Kontrol Player
+        if(window.isKeyPressed(GLFW_KEY_W)){
+            player.move("f", player);
+        }
+        if(window.isKeyPressed(GLFW_KEY_S)){
+            player.move("b", player);
+        }
+        if(window.isKeyPressed(GLFW_KEY_A)){
+            player.move("l", player);
+        }
+        if(window.isKeyPressed(GLFW_KEY_D)){
+            player.move("r", player);
+        }
+        //Kontrol Player
+        if (window.isKeyPressed(GLFW_KEY_LEFT_CONTROL)) {
             camera.moveForward(0.12f);
         }
 
-        if (window.isKeyPressed(GLFW_KEY_S)) {
+        if (window.isKeyPressed(GLFW_KEY_LEFT_ALT)) {
             camera.moveBackwards(0.12f);
         }
         if (window.isKeyPressed(GLFW_KEY_DOWN)) {
@@ -734,11 +772,11 @@ public class TestRuang {
         if (window.isKeyPressed(GLFW_KEY_UP)) {
             camera.moveUp(0.12f);
         }
-        if (window.isKeyPressed(GLFW_KEY_A)) {
+        if (window.isKeyPressed(GLFW_KEY_LEFT)) {
             camera.moveLeft(0.12f);
         }
 
-        if (window.isKeyPressed(GLFW_KEY_D)) {
+        if (window.isKeyPressed(GLFW_KEY_RIGHT)) {
             camera.moveRight(0.12f);
         }
 
@@ -818,11 +856,14 @@ public class TestRuang {
             glClearDepth(1.0f);
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             input();
+            player.draw(camera, projection);
 
             for (Object obj3D : Ruang) {
                 obj3D.draw(camera, projection);
             }
-
+//            System.out.println("Cam X"+camera.getPosition().get(0));
+//            System.out.println("Cam Y"+camera.getPosition().get(1));
+//            System.out.println("Cam Z"+camera.getPosition().get(2));
             //Restore State
             glDisableVertexAttribArray(0);
             // Pull for window events
