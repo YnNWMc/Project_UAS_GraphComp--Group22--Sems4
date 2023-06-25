@@ -743,11 +743,10 @@ public class TestRuang {
         }
 
 
-    private float maxCam = 360.0f;
     private float count = 0;
     private boolean hold= false;
     private boolean fromCCTV = false;
-    private float countLeft=0;
+
 
     //Menyimpan posisi kamera akhir karakter
 //    float tempCamX = camera.getPositionX();
@@ -756,6 +755,9 @@ public class TestRuang {
     Vector3f firsttempCam;
     Vector3f tempCam = new Vector3f(0.0f, 2.3f, 0.5f);
     Vector2f tempRotate = new Vector2f((float) Math.toRadians(0.0f), (float) Math.toRadians(180.0f));
+
+    Vector3f baseCam = new Vector3f(0f, 2.3f, 0f);
+
     public void input() {
         //( 9.949E+0  1.275E+1 -9.942E+0)
 //        ( 9.994E+0  1.279E+1  1.798E+1)
@@ -790,92 +792,59 @@ public class TestRuang {
                 camera.setPosition(tempCam.x, tempCam.y, tempCam.z);
                 camera.setRotation(tempRotate.x, tempRotate.y);
                 fromCCTV = false;
+
             }
         }
 
+        //get posisi camera pada karakter
+        Vector3f characterPos = player.getPosition();
+        Vector3f cameraPosition = new Vector3f(characterPos.x + baseCam.x, characterPos.y + baseCam.y, characterPos.z + baseCam.z);
 
-        if (window.isKeyPressed(GLFW_KEY_1)) {
-            if(count<=maxCam) {
-                camera.addRotation((float) Math.toRadians(0.0), (float) Math.toRadians(0.2));
-                count+=0.2;
-            }
-            //NANTI SESUAIIN SAMA KARAKTER BUAT BALIK KE KAMERANYA
-            //camera.setPosition(9.949f,  1.275f ,-9.942f);
-        }
+        if (window.isKeyPressed(GLFW_KEY_W)) {
+            Vector3f forward = camera.getForwardVector().mul(player.getCurrSpeed());
+            Vector3f newPosition = player.getPosition().add(forward);
+            player.setPosition(newPosition.x, newPosition.y, newPosition.z);
 
-        //Kontrol Player
-//        if(window.isKeyPressed(GLFW_KEY_W)){
-////            if(player.getCharacterDir())
-//            player.move("f", player);
-//            camera.moveForward(player.getCurrSpeed());
-//        }
-//        if(window.isKeyPressed(GLFW_KEY_S)){
-//            player.move("b", player);
-//            camera.moveBackwards(player.getCurrSpeed());
-//        }
-//        if(window.isKeyPressed(GLFW_KEY_A)){
-//            player.move("l", player);
-//        }
-//        if(window.isKeyPressed(GLFW_KEY_D)){
-//            player.move("r", player);
-//        }
-        if(window.isKeyPressed(GLFW_KEY_W)){
+            // Mengatur posisi kamera sesuai objectnya
+            camera.setPosition(cameraPosition.x,cameraPosition.y,cameraPosition.z);
+            //simpan posisi untuk pindah dari cctv
+            tempCam = new Vector3f(cameraPosition.x,cameraPosition.y,cameraPosition.z);
 
-//            if(player.getCharacterDir())
-//            Vector3f tempCenterPointsd = player.updateCenterPoint();
-//            player.translateObject(tempCenterPointsd.x * -1, tempCenterPointsd.y * -1, tempCenterPointsd.z * -1);
-//            if (countLeft<0.0f) {
-//                countLeft++;
-//                player.rotateObject(0.01f, 0f, 1f, 0f);
-//
-//            }
-//            else if(countLeft>0.0f) {
-//                countLeft--;
-//                player.rotateObject(0.01f, 0f, -1f, 0f);
-//
-//            }
-//            player.translateObject(tempCenterPointsd.x * 1, tempCenterPointsd.y * 1, tempCenterPointsd.z * 1);
-            player.translateObject(0.0f,0.0f, player.getCurrSpeed());
-            camera.moveForward(player.getCurrSpeed());
-            tempCam = new Vector3f(camera.getPositionX(), camera.getPositionY(), camera.getPositionZ());
+
+        } else if (window.isKeyPressed(GLFW_KEY_S)) {
+            Vector3f backward = camera.getForwardVector().mul(-player.getCurrSpeed());
+            Vector3f newPosition = player.getPosition().add(backward);
+            player.setPosition(newPosition.x, newPosition.y, newPosition.z);
+
+            camera.setPosition(cameraPosition.x,cameraPosition.y,cameraPosition.z);
+
+            tempCam = new Vector3f(cameraPosition.x,cameraPosition.y,cameraPosition.z);
 
         }
-        if(window.isKeyPressed(GLFW_KEY_S)){
-            player.translateObject(0.0f,0.0f,-player.getCurrSpeed());
-            camera.moveBackwards(player.getCurrSpeed());
-            tempCam = new Vector3f(camera.getPositionX(), camera.getPositionY(), camera.getPositionZ());
 
-        }
-        if(window.isKeyPressed(GLFW_KEY_A)){
-            Vector3f tempCenterPointsd = player.updateCenterPoint();
-//            player.translateObject(tempCenterPointsd.x * -1, tempCenterPointsd.y * -1, tempCenterPointsd.z * -1);
-//            if (countLeft<=180f) {
-//                countLeft+=10;
-//                player.rotateObject(0.1f, 0f, 1f, 0f);
-//
-//            }
-//            player.translateObject(tempCenterPointsd.x * 1, tempCenterPointsd.y * 1, tempCenterPointsd.z * 1);
-//            if(countLeft>=180)
-            player.translateObject(player.getCurrSpeed(),0.0f,0.0f);
-            camera.moveLeft(player.getCurrSpeed());
-            tempCam = new Vector3f(camera.getPositionX(), camera.getPositionY(), camera.getPositionZ());
+        if (window.isKeyPressed(GLFW_KEY_A)) {
+            Vector3f left = camera.getRightVector().mul(-player.getCurrSpeed());
+            Vector3f newPosition = player.getPosition().add(left);
+            player.setPosition(newPosition.x, newPosition.y, newPosition.z);
 
-        }
-        if(window.isKeyPressed(GLFW_KEY_D)){
-//            Vector3f tempCenterPointsd = player.updateCenterPoint();
-//            player.translateObject(tempCenterPointsd.x * -1, tempCenterPointsd.y * -1, tempCenterPointsd.z * -1);
-//            if (countLeft>=-180f) {
-//                countLeft-=10;
-//                player.rotateObject(0.1f, 0f, -1f, 0f);
-//
-//            }
-//            player.translateObject(tempCenterPointsd.x * 1, tempCenterPointsd.y * 1, tempCenterPointsd.z * 1);
-//            if(countLeft<=-180)
-            player.translateObject(-player.getCurrSpeed(),0.0f,0.0f);
-            camera.moveRight(player.getCurrSpeed());
-            tempCam = new Vector3f(camera.getPositionX(), camera.getPositionY(), camera.getPositionZ());
+            camera.setPosition(cameraPosition.x,cameraPosition.y,cameraPosition.z);
 
+
+            tempCam = new Vector3f(cameraPosition.x,cameraPosition.y,cameraPosition.z);
+
+        } else if (window.isKeyPressed(GLFW_KEY_D)) {
+            Vector3f right = camera.getRightVector().mul(player.getCurrSpeed());
+            Vector3f newPosition = player.getPosition().add(right);
+            player.setPosition(newPosition.x, newPosition.y, newPosition.z);
+
+            camera.setPosition(cameraPosition.x,cameraPosition.y,cameraPosition.z);
+
+
+            tempCam = new Vector3f(cameraPosition.x,cameraPosition.y,cameraPosition.z);
         }
+        //update matrix player
+        player.updateModelMatrix();
+
         //Kontrol Player
         if (window.isKeyPressed(GLFW_KEY_LEFT_CONTROL)) {
             camera.moveForward(0.12f);
@@ -902,6 +871,7 @@ public class TestRuang {
         if (window.getMouseInput().isLeftButtonPressed()){
             Vector2f displayVec = window.getMouseInput().getDisplVec();
             camera.addRotation((float)Math.toRadians(displayVec.x * 0.1f), (float) Math.toRadians(displayVec.y * 0.1f));
+
             tempRotate = new Vector2f (camera.getRotationX(), camera.getRotationY());
         }
 

@@ -12,6 +12,7 @@ public class Player extends Sphere{
     private int characterDir = 180;
     private float currSpeed = 0.05f;
     private float currRotateSpeed = 0;
+
     public Player(List<ShaderModuleData> shaderModuleDataList, List<Vector3f> vertices, Vector4f color, double r, ArrayList<Float> centerPoint, float rX, float rY, float rZ, int stackCount, int sectorCount, Model m) {
         super(shaderModuleDataList, vertices, color, r, centerPoint, rX, rY, rZ, stackCount, sectorCount, m);
     }

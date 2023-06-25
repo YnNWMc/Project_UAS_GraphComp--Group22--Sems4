@@ -2,6 +2,7 @@ package Engine;
 
 
 import org.joml.Matrix4f;
+import org.joml.Quaternionf;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
 
@@ -20,12 +21,16 @@ import static org.lwjgl.opengl.GL30.glGenVertexArrays;
 public class Object extends ShaderProgram implements Collideable{
     List<Vector3f> vertices;
     List<Vector3f>verticesColor;
+
+    Vector3f position;
     int vao, vbo;
     int vboColor;
     Vector4f color;
     UniformsMap uniformsMap;
     Matrix4f model;
     List<Object> childObject;
+    private float scale;
+    private Quaternionf rotation;
     public Object(List<ShaderModuleData> shaderModuleDataList, List<Vector3f> vertices,
                     Vector4f color)
     {
@@ -41,6 +46,9 @@ public class Object extends ShaderProgram implements Collideable{
 
         model = new Matrix4f().identity();
         childObject = new ArrayList<>();
+        position = new Vector3f();
+        rotation = new Quaternionf();
+        scale = 1;
     }
     public Object(List<ShaderModuleData> shaderModuleDataList, List<Vector3f> vertices,
                     List<Vector3f> verticesColor)
@@ -222,5 +230,33 @@ public class Object extends ShaderProgram implements Collideable{
         return false;
     }
 
+    public final void setPosition(float x, float y, float z) {
+        position.x = x;
+        position.y = y;
+        position.z = z;
+    }
+    public Vector3f getPosition() {
+        return position;
+    }
+
+    public void updateModelMatrix() {
+        model.translationRotateScale(position, rotation, scale);
+    }
+
+    public float getScale() {
+        return scale;
+    }
+
+    public void setScale(float scale) {
+        this.scale = scale;
+    }
+
+    public Quaternionf getRotation() {
+        return rotation;
+    }
+
+    public void setRotation(Quaternionf rotation) {
+        this.rotation = rotation;
+    }
 }
 
